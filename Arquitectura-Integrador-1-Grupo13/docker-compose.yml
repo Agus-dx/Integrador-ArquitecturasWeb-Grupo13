@@ -8,11 +8,12 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_USER: root
-      MYSQL_DATABASE: db_integrador_1
+      MYSQL_DATABASE: integrador1
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
 
 volumes:
+
   db_data:
