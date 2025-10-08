@@ -34,10 +34,10 @@ public class CarreraRepositoryImpl implements CarreraRepository {
     public List<CarreraDTO> getCarrerasConEstudiantes() {
         try {
             EntityManager em = JPAUtil.getEntityManager();
-            String jpql = "SELECT new micro.example.dto.CarreraDTO(c.nombre, c.duracion, COUNT(c)) " +
-                    "FROM Carrera c JOIN FETCH c.estudiantes e " +
-                    "GROUP BY c.id, c.nombre " +
-                    "ORDER BY COUNT(c) DESC";
+            String jpql = "SELECT new micro.example.dto.CarreraDTO(c.nombre, c.duracion, COUNT(e.id)) " +
+                    "FROM Carrera c JOIN c.estudiantes e " +
+                    "GROUP BY c.id, c.nombre, c.duracion " +
+                    "ORDER BY COUNT(e.id) DESC";
             List<CarreraDTO> carreras = em.createQuery(jpql,CarreraDTO.class).getResultList();
             em.close();
             return carreras;
