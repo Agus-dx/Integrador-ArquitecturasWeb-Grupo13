@@ -20,16 +20,16 @@ src/
 │       ├── csv                  # Archivos CSV con datos de prueba
 ```
 ## Modelo de Datos
-El sistema se basa en tres entidades principales que gestionan la información académica y de identificación
+*El sistema se basa en tres entidades principales que gestionan la información académica y de identificación*
 
 **Estudiante:** Contiene los datos personales y de identificación de cada estudiante
-    - **Atributos:** `dni` (**PK**), `nro_libreta` (**Unique**), `nombre`, `apellido`, `edad`, `genero`, `ciudad` 
+- **Atributos:** `dni` (**PK**), `nro_libreta` (**Unique**), `nombre`, `apellido`, `edad`, `genero`, `ciudad` 
     
 **Carrera:** Almacena la **información identificativa** de cada curso o titulación ofrecida por la institución
-    - **Atributos:** `id_carrera` (**PK**), `nombre_carrera`, `duracion`
+- **Atributos:** `id_carrera` (**PK**), `nombre_carrera`, `duracion`
     
 **EstudianteCarrera:** Modela la **relación de inscripción (N:M)** entre un estudiante y una carrera, registrando los detalles de esa matrícula
-    - **Atributos:** `inscripcion`, `graduacion`, `antiguedad` 
+- **Atributos:** `inscripcion`, `graduacion`, `antiguedad`
     
 ### Diagramas de Entidades
 
