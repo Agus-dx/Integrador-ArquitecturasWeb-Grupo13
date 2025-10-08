@@ -25,7 +25,7 @@ src/
 **Estudiante:** Contiene los datos personales y de identificación de cada estudiante
 - **Atributos:** `dni` (**PK**), `nro_libreta` (**Unique**), `nombre`, `apellido`, `edad`, `genero`, `ciudad` 
     
-**Carrera:** Almacena la **información identificativa** de cada curso o titulación ofrecida por la institución
+**Carrera:** Contiene la información identificativa de cada carrera
 - **Atributos:** `id_carrera` (**PK**), `nombre_carrera`, `duracion`
     
 **EstudianteCarrera:** Modela la **relación de inscripción (N:M)** entre un estudiante y una carrera, registrando los detalles de esa matrícula
@@ -40,6 +40,10 @@ src/
 **Diagrama Físico (Estructura de la BD)**
 
 <img width="710" height="173" alt="image" src="https://github.com/user-attachments/assets/01973d31-77c4-4c0b-a33e-199a99b1d9c4" />
+
+**Diagrama de Objetos (instantánea del sistema con valores concretos)**
+
+<img width="606" height="470" alt="image" src="https://github.com/user-attachments/assets/bebcde36-f746-442b-b84b-d98570d22000" />
 
 ## Funcionalidad (Operaciones y Consultas)
 
