@@ -7,6 +7,7 @@ import micro.example.factory.JPAUtil;
 import micro.example.modelo.Carrera;
 import micro.example.modelo.Estudiante;
 import micro.example.modelo.EstudianteCarrera;
+import micro.example.modelo.EstudianteCarreraPK;
 
 import java.io.FileReader;
 import java.util.List;
@@ -37,15 +38,29 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
                     continue; // Ir a la siguiente línea del CSV
                 }
 
-                // Si ambos existen, crear la entidad de relación
-                EstudianteCarrera ec = new EstudianteCarrera();
-                ec.setEstudiante(e);
-                ec.setCarrera(c);
-                ec.setInscripcion(Integer.parseInt(linea[3]));
-                ec.setGraduacion(Integer.parseInt(linea[4]));
-                ec.setAntiguedad(Integer.parseInt(linea[5]));
+                //se crea la pk compuesta de estudiante y carrera
+                EstudianteCarreraPK pk =  new EstudianteCarreraPK(c.getId(), e.getDni());
 
-                em.persist(ec);
+                //Compruebo si existe esta matricula
+                EstudianteCarrera existeMatricula = em.find(EstudianteCarrera.class, pk);
+                if(existeMatricula != null) {
+                    //si existe se actualizan los datos
+                    existeMatricula.setInscripcion(Integer.parseInt(linea[3]));
+                    existeMatricula.setGraduacion(Integer.parseInt(linea[4]));
+                    existeMatricula.setAntiguedad(Integer.parseInt(linea[5]));
+                    em.merge(existeMatricula);
+                }else{
+                    // Si no existe la matricula, crear la entidad de relación
+                    EstudianteCarrera ec = new EstudianteCarrera();
+                    //se inserta como el id de la entidad-relacion (matricula)
+                    ec.setId(pk);
+                    ec.setEstudiante(e);
+                    ec.setCarrera(c);
+                    ec.setInscripcion(Integer.parseInt(linea[3]));
+                    ec.setGraduacion(Integer.parseInt(linea[4]));
+                    ec.setAntiguedad(Integer.parseInt(linea[5]));
+                    em.persist(ec);
+                }
             }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -57,6 +72,17 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
     @Override
     public void matricularEstudiante(EstudianteCarrera estudianteCarrera) {
         try {
+            //se no existe la clave compuesta, se inicializa
+            if(estudianteCarrera.getId() == null) {
+                Estudiante e = estudianteCarrera.getEstudiante();
+                Carrera c = estudianteCarrera.getCarrera();
+
+                if(c == null || e == null) {
+                    throw new IllegalArgumentException("La entidad EstudianteCarrera debe tener Estudiante y Carrera asignados.");
+                }
+                EstudianteCarreraPK pk = new EstudianteCarreraPK(c.getId(), e.getDni());
+                estudianteCarrera.setId(pk);
+            }
             EntityManager em = JPAUtil.getEntityManager();
             em.getTransaction().begin();
             em.persist(estudianteCarrera);

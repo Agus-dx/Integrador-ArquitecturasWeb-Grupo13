@@ -1,0 +1,10 @@
+# Ignorar carpetas generadas y de IDE
+target/
+.idea/
+
+# Ignorar archivos compilados
+*.class
+*.jar
+*.war
+*.ear
+*.iml
