@@ -10,6 +10,17 @@ import java.io.FileReader;
 import java.util.List;
 
 public class CarreraRepositoryImpl implements CarreraRepository {
+    private static CarreraRepositoryImpl instance;
+
+    private CarreraRepositoryImpl() {
+    }
+
+    public static CarreraRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new CarreraRepositoryImpl();
+        }
+        return  instance;
+    }
     @Override
     public void insertarDesdeCSV(String rutaArchivo) {
         EntityManager em = JPAUtil.getEntityManager();

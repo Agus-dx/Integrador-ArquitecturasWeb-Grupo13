@@ -14,6 +14,17 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {
+    private static EstudianteRepositoryImpl instance;
+
+    private EstudianteRepositoryImpl() {
+    }
+
+    public static EstudianteRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new EstudianteRepositoryImpl();
+        }
+        return  instance;
+    }
 
     @Override
     public void insertarDesdeCSV(String rutaArchivo) {

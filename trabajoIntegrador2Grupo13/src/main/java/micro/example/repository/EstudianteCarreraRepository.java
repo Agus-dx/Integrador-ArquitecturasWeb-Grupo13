@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface EstudianteCarreraRepository {
     void insertarDesdeCSV(String rutaArchivo);
-    void matricularEstudiante(EstudianteCarrera estudianteCarrera);
+    boolean matricularEstudiante(EstudianteCarrera estudianteCarrera);
     List<ReporteDTO> getReportes();
 }

@@ -16,15 +16,18 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        EstudianteRepositoryImpl er = new EstudianteRepositoryImpl();
+        EstudianteRepositoryImpl er = EstudianteRepositoryImpl.getInstance();
         er.insertarDesdeCSV("src/main/resources/estudiantes.csv");
-        CarreraRepositoryImpl cr = new CarreraRepositoryImpl();
+        CarreraRepositoryImpl cr = CarreraRepositoryImpl.getInstance();
         cr.insertarDesdeCSV("src/main/resources/carreras.csv");
-        EstudianteCarreraRepositoryImpl ecr = new EstudianteCarreraRepositoryImpl();
+        EstudianteCarreraRepositoryImpl ecr = EstudianteCarreraRepositoryImpl.getInstance();
         ecr.insertarDesdeCSV("src/main/resources/estudianteCarrera.csv");
 
         // Menu
         boolean temp = true;
+
+        Scanner scanner = new Scanner(System.in);
+
         while (temp) {
 
             System.out.println("1. Dar de alta un estudiante");
@@ -37,8 +40,16 @@ public class Main {
             System.out.println("8. Generar reporte de las carreras");
             System.out.println("9. Salir");
             System.out.print("Ingrese una opción: ");
-            Scanner scanner = new Scanner(System.in);
+
+            if(!scanner.hasNextInt()) {
+                System.out.println("ERROR: Entrada no válida. Por favor, ingrese el número de la opción (1-9)");
+
+                scanner.next();
+                System.out.println();
+                continue;
+            }
             int opcion = scanner.nextInt();
+
             switch (opcion) {
                 case 1:{
                     // Dar de alta un estudiante
@@ -48,7 +59,7 @@ public class Main {
                     System.out.println("Ingrese Apellido: ");
                     String apellido = scanner.next();
                     System.out.println("Ingrese DNI: ");
-                    long dni = scanner.nextInt();
+                    long dni = scanner.nextLong();
                     System.out.println("Ingrese Edad: ");
                     int edad = scanner.nextInt();
                     System.out.println("Ingrese Genero: ");
@@ -66,9 +77,9 @@ public class Main {
                 case 2: {
                     // Matricular un estudiante en una carrera
                     System.out.println("Ingrese el número de DNI del estudiante a matricular: ");
-                    int dni = scanner.nextInt();
+                    long dni = scanner.nextLong();
                     System.out.println("Ingrese el ID de la carrera: ");
-                    long idCarrera = scanner.nextInt();
+                    long idCarrera = scanner.nextLong();
                     Estudiante estudiante = er.findById(dni);
                     Carrera carrera = cr.findById(idCarrera);
                     // Validar existencia
@@ -85,11 +96,14 @@ public class Main {
                     estudianteCarrera.setEstudiante(estudiante);
                     estudianteCarrera.setCarrera(carrera);
                     try {
-                        ecr.matricularEstudiante(estudianteCarrera);
-                        System.out.println("Estudiante matriculado en la carrera: " + carrera.getNombre());
+                        boolean esMatriculaNueva = ecr.matricularEstudiante(estudianteCarrera);
+                        if(esMatriculaNueva) {
+                            System.out.println("Estudiante matriculado en la carrera: " + carrera.getNombre());
+                        }else{
+                            System.out.println("El/la estudiante '" + estudiante.getNombre() + " , " + estudiante.getApellido() + "' ya estaba matriculado/a en la carrera: '" + carrera.getNombre() + "'. (Actualizando datos...)");
+                        }
                     } catch (Exception ex) {
-                        System.out.println("El estudiante ya está inscrito en la carrera: "
-                                + carrera.getNombre() + " (" + ex.getMessage() + ")");
+                        System.out.println("*** ERROR al intentar matricular ***: " + ex.getMessage());
                     }
                     System.out.println();
                     break;

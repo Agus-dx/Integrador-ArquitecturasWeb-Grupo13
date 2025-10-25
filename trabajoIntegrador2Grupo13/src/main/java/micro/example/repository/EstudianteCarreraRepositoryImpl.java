@@ -13,6 +13,18 @@ import java.io.FileReader;
 import java.util.List;
 
 public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraRepository {
+    private static EstudianteCarreraRepositoryImpl instance;
+
+    private EstudianteCarreraRepositoryImpl() {
+    }
+
+    public static EstudianteCarreraRepositoryImpl getInstance() {
+        if (instance == null) {
+            instance = new EstudianteCarreraRepositoryImpl();
+        }
+        return  instance;
+    }
+
     @Override
     public void insertarDesdeCSV(String rutaArchivo) {
         EntityManager em = JPAUtil.getEntityManager();
@@ -70,9 +82,10 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
         }
     }
     @Override
-    public void matricularEstudiante(EstudianteCarrera estudianteCarrera) {
+    public boolean matricularEstudiante(EstudianteCarrera estudianteCarrera) {
+        boolean matriculaNueva  = false;
         try {
-            //se no existe la clave compuesta, se inicializa
+            //si no existe la clave compuesta, se inicializa
             if(estudianteCarrera.getId() == null) {
                 Estudiante e = estudianteCarrera.getEstudiante();
                 Carrera c = estudianteCarrera.getCarrera();
@@ -85,9 +98,17 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
             }
             EntityManager em = JPAUtil.getEntityManager();
             em.getTransaction().begin();
-            em.persist(estudianteCarrera);
+            //Compruebo si ya existe esta matricula
+            EstudianteCarrera existeMatricula = em.find(EstudianteCarrera.class, estudianteCarrera.getId());
+
+            if(existeMatricula == null) {
+                matriculaNueva = true;
+            }
+            //usamos merge (inserta si es new, actualiza si ya existe)
+            em.merge(estudianteCarrera);
             em.getTransaction().commit();
             em.close();
+            return matriculaNueva;
         }catch (Exception e){
             throw new RuntimeException("*** Error al matricular el estudiante ***",e);
         }
