@@ -14,19 +14,14 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EstudianteCarrera {
     /**
-     * Clave primaria compuesta de la entidad.
-     * * @EmbeddedId: Indica que la clave primaria de esta entidad es un objeto embebido (la clase EstudianteCarreraPK).
+     * Clave primaria compuesta de la entidad
      */
     @EmbeddedId
     private EstudianteCarreraPK id;
 
     /**
      * Entidad Carrera referenciada
-     * * Representa el lado "muchos" de la relación con Carrera
-     * * @ManyToOne: Relación muchos-a-uno
      * * @MapsId("idCarrera"): Mapea el campo 'idCarrera' de la clave compuesta (EstudianteCarreraPK)
-     * a la columna 'id_carrera'
-     * * @JoinColumn(name = "id_carrera", nullable = false): Define la clave foránea a la tabla Carrera
      */
     @ManyToOne (fetch=FetchType.LAZY)
     @MapsId("idCarrera")
@@ -35,11 +30,8 @@ public class EstudianteCarrera {
 
     /**
      * Entidad Estudiante referenciada
-     * * Representa el lado "muchos" de la relación con Estudiante
-     * * @ManyToOne: Relación muchos-a-uno
      * * @MapsId("idEstudiante"): Mapea el campo 'idEstudiante' de la clave compuesta (EstudianteCarreraPK)
      * a la columna 'id_estudiante'
-     * * @JoinColumn(name = "id_estudiante", nullable = false): Define la clave foránea a la tabla Estudiante
      */
     @ManyToOne (fetch=FetchType.LAZY)
     @MapsId("idEstudiante")
