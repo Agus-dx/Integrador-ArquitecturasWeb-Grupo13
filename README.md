@@ -31,19 +31,24 @@ src/
 **EstudianteCarrera:** Modela la **relación de inscripción (N:M)** entre un estudiante y una carrera, registrando los detalles de esa matrícula
 - **Atributos:** `inscripcion`, `graduacion`, `antiguedad`
     
-### Diagramas de Entidades
+## Diagramas de Entidades
 
-**Diagrama Entidad-Relación (logico)**
+### Diagrama Entidad-Relación (logico)
 
 <img width="727" height="183" alt="image" src="https://github.com/user-attachments/assets/b6bf574d-1181-446c-90d3-4005796d7f2c" />
 
-**Diagrama Físico (Estructura de la BD)**
+### Diagrama Físico (Estructura de la BD)
 
 <img width="710" height="173" alt="image" src="https://github.com/user-attachments/assets/01973d31-77c4-4c0b-a33e-199a99b1d9c4" />
 
-**Diagrama de Objetos (instantánea del sistema con valores concretos)**
+### Diagrama de Objetos (instantánea del sistema con valores concretos)
 
 <img width="606" height="470" alt="image" src="https://github.com/user-attachments/assets/bebcde36-f746-442b-b84b-d98570d22000" />
+
+
+### Diagrama de Clases (Proyecto completo)
+
+<img width="4530" height="3920" alt="DER_TP2_Arqui" src="https://github.com/user-attachments/assets/5adbaa9e-17b3-4176-a162-c715a6835435"/>
 
 ## Funcionalidad (Operaciones y Consultas)
 
