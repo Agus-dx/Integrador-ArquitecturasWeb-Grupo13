@@ -1,7 +1,9 @@
 package com.grupo13.integrador3.service;
 
 import com.grupo13.integrador3.dto.CarreraDTO;
+import com.grupo13.integrador3.dto.EstudianteDTO;
 import com.grupo13.integrador3.model.Carrera;
+import com.grupo13.integrador3.model.Estudiante;
 import com.grupo13.integrador3.repository.CarreraRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class CarreraService {
             throw new RuntimeException(e);
         }
     }
-
+//creo que es este metodo que deberia de retornar un DTO
     @Transactional(readOnly = true)
     public Carrera findByIdEntity(Long id){
         try{
@@ -41,5 +43,12 @@ public class CarreraService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Transactional
+    public CarreraDTO addCarrera(Carrera carrera){
+            Carrera carr = carreraRepository.save(carrera);
+            CarreraDTO  carrDTO = new CarreraDTO(carr);
+            return carrDTO;
     }
 }

@@ -14,13 +14,17 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Carrera {
+    //Identificador único de la carrera (PRIMARY KEY).
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @Column(name = "nombre", nullable = false, unique = true)
     private String nombre;
+
     @Column(name = "duracion", nullable = false)
     private int duracion;
+
     @OneToMany(mappedBy = "carrera", fetch = FetchType.LAZY)
     private List<EstudianteCarrera> estudiantes;
 

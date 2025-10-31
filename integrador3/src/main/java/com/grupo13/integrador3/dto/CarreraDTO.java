@@ -18,7 +18,9 @@ public class CarreraDTO {
     public CarreraDTO(Carrera carrera) {
         this.nombre = carrera.getNombre();
         this.duracion = carrera.getDuracion();
-        this.cantEstudiantes = carrera.getEstudiantes().size();
+        this.cantEstudiantes = (carrera.getEstudiantes() != null)
+                ? carrera.getEstudiantes().size()
+                : 0; //si la lista es null, devuelve 0
     }
 }
 
