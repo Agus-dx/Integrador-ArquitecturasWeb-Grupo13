@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: container_mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: db_mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: always
+    networks:
+      - backend
+
+  mongodb:
+    image: mongo:6.0
+    container_name: container_mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: db_monopatines
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+    networks:
+      - backend
+
+  postgresdb:
+    image: postgres:15
+    container_name: container_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db_monopatines
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+  mongo_data:
+  postgres_data:
+
+networks:
+  backend:
+    driver: bridge
