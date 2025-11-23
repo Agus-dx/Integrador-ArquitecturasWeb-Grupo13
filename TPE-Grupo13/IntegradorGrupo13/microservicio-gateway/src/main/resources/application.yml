@@ -1,0 +1,66 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/auth?createDatabaseIfNotExist=true
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: mysql
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      server:
+        webmvc:
+          routes:
+            - id: facturacion
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/facturas/**
+
+            - id: monopatin
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/monopatines/**
+
+            - id: parada
+              uri: http://localhost:8085
+              predicates:
+                - Path=/api/paradas/**
+
+            - id: tarifas
+              uri: http://localhost:8086
+              predicates:
+                - Path=/api/tarifas/**
+
+            - id: viajes
+              uri: http://localhost:8087
+              predicates:
+                - Path=/api/viajes/**
+
+            - id: cuenta
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/cuenta/**
+
+            - id: usuario
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/usuario/**
+
+            - id: ia
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/usuario/**
+
+
+
+logging:
+  level:
+    '[org.springframework.cloud.gateway]': DEBUG
+    '[org.springframework.web]': DEBUG

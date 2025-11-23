@@ -17,15 +17,24 @@
     <packaging>pom</packaging>
     <modules>
         <module>microservicio-gateway</module>
-        <module>microservicio-admin</module>
         <module>microservicio-usuario-cuenta</module>
         <module>microservicio-facturacion</module>
         <module>microservicio-monopatin</module>
         <module>microservicio-parada</module>
         <module>microservicio-tarifa</module>
         <module>microservicio-viaje</module>
+        <module>microservicio-ia</module>
+
 
     </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+        </dependency>
+    </dependencies>
+
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>

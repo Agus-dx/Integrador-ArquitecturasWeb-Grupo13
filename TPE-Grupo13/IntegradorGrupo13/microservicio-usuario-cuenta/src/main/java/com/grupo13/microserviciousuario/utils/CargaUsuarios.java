@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.grupo13.microserviciousuario.entity.Cuenta;
@@ -21,91 +22,194 @@ public class CargaUsuarios implements CommandLineRunner {
     private UsuarioRepository usuarioRepository;
     @Autowired
     private CuentaRepository cuentaRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(String... args) throws Exception {
-        CargarDatosIniciales(usuarioRepository, cuentaRepository);
+    public void run(String... args) {
+        CargarDatosIniciales(usuarioRepository, cuentaRepository, passwordEncoder);
     }
 
-    public static void CargarDatosIniciales(UsuarioRepository usuarioRepositoryy, CuentaRepository cuentaRepositoryy) {
-
+    public static void CargarDatosIniciales(UsuarioRepository usuarioRepositoryy, CuentaRepository cuentaRepositoryy, PasswordEncoder passwordEncoder) {
+        // Lógica para cargar datos iniciales en la base de datos
+        // generame 5 usuarios y 5 cuentas con datos de ejemplo y asocialos entre si
         Cuenta cuenta1 = new Cuenta();
-        cuenta1.setIdMercadoPago("MP54321");
-        cuenta1.setSaldo(new BigDecimal("500.00"));
-        cuenta1.setEstado(EstadoCuenta.SUSPENDIDA);
-        cuenta1.setFechaAlta(LocalDate.now().minusMonths(2));
+        cuenta1.setIdMercadoPago("MP12345");
+        cuenta1.setSaldo(new BigDecimal("1000.00"));
+        cuenta1.setEstado(EstadoCuenta.ACTIVA);
+        cuenta1.setFechaAlta(LocalDate.now());
         cuenta1.setTipoCuenta(TipoCuenta.BASICA);
         cuenta1.setKmConsumidosMes(0);
         cuenta1.setFechaRenovacionCupo(null);
 
         Cuenta cuenta2 = new Cuenta();
-        cuenta2.setIdMercadoPago("MP98765");
-        cuenta2.setSaldo(new BigDecimal("3000.00"));
+        cuenta2.setIdMercadoPago("MP67890");
+        cuenta2.setSaldo(new BigDecimal("2500.00"));
         cuenta2.setEstado(EstadoCuenta.ACTIVA);
-        cuenta2.setFechaAlta(LocalDate.now().minusMonths(1));
+        cuenta2.setFechaAlta(LocalDate.now());
         cuenta2.setTipoCuenta(TipoCuenta.PREMIUM);
-        cuenta2.setKmConsumidosMes(200);
+        cuenta2.setKmConsumidosMes(150);
         cuenta2.setFechaRenovacionCupo(LocalDate.now().plusMonths(1));
 
         Cuenta cuenta3 = new Cuenta();
-        cuenta3.setIdMercadoPago("MP11223");
-        cuenta3.setSaldo(new BigDecimal("750.00"));
-        cuenta3.setEstado(EstadoCuenta.ACTIVA);
-        cuenta3.setFechaAlta(LocalDate.now());
+        cuenta3.setIdMercadoPago("MP54321");
+        cuenta3.setSaldo(new BigDecimal("500.00"));
+        cuenta3.setEstado(EstadoCuenta.SUSPENDIDA);
+        cuenta3.setFechaAlta(LocalDate.now().minusMonths(2));
         cuenta3.setTipoCuenta(TipoCuenta.BASICA);
         cuenta3.setKmConsumidosMes(0);
         cuenta3.setFechaRenovacionCupo(null);
 
+        Cuenta cuenta4 = new Cuenta();
+        cuenta4.setIdMercadoPago("MP98765");
+        cuenta4.setSaldo(new BigDecimal("3000.00"));
+        cuenta4.setEstado(EstadoCuenta.ACTIVA);
+        cuenta4.setFechaAlta(LocalDate.now().minusMonths(1));
+        cuenta4.setTipoCuenta(TipoCuenta.PREMIUM);
+        cuenta4.setKmConsumidosMes(200);
+        cuenta4.setFechaRenovacionCupo(LocalDate.now().plusMonths(1));
+
+        Cuenta cuenta5 = new Cuenta();
+        cuenta5.setIdMercadoPago("MP11223");
+        cuenta5.setSaldo(new BigDecimal("750.00"));
+        cuenta5.setEstado(EstadoCuenta.ACTIVA);
+        cuenta5.setFechaAlta(LocalDate.now());
+        cuenta5.setTipoCuenta(TipoCuenta.BASICA);
+        cuenta5.setKmConsumidosMes(0);
+        cuenta5.setFechaRenovacionCupo(null);
+
         Usuario usuario1 = new Usuario();
-        usuario1.setNombre("Juan");
-        usuario1.setApellido("Perez");
+        usuario1.setNombre("Agustin");
+        usuario1.setApellido("Van Waarde");
+        usuario1.setEmail("agusvan@gmail.com");
+        usuario1.setPassword(passwordEncoder.encode("1234"));
         usuario1.setRol(Rol.ADMIN);
         usuario1.addCuenta(cuenta1);
         usuario1.addCuenta(cuenta2);
 
         Usuario usuario2 = new Usuario();
-        usuario2.setNombre("Maria");
-        usuario2.setApellido("Gomez");
+        usuario2.setNombre("Matias");
+        usuario2.setApellido("Spacech");
+        usuario2.setEmail("mati@gmail.com");
+        usuario2.setPassword(passwordEncoder.encode("1234"));
         usuario2.setRol(Rol.USUARIO);
-        usuario2.addCuenta(cuenta1);
+        usuario2.addCuenta(cuenta3);
 
         Usuario usuario3 = new Usuario();
         usuario3.setNombre("Carlos");
         usuario3.setApellido("Lopez");
+        usuario3.setEmail("carlos.lopez@example.com");
+        usuario3.setPassword(passwordEncoder.encode("password123"));
         usuario3.setRol(Rol.USUARIO);
-        usuario3.addCuenta(cuenta2);
+        usuario3.addCuenta(cuenta4);
 
         Usuario usuario4 = new Usuario();
         usuario4.setNombre("Ana");
         usuario4.setApellido("Martinez");
+        usuario4.setEmail("ana.martinez@example.com");
+        usuario4.setPassword(passwordEncoder.encode("password123"));
         usuario4.setRol(Rol.USUARIO);
-        usuario4.addCuenta(cuenta3);
+        usuario4.addCuenta(cuenta5);
 
         Usuario usuario5 = new Usuario();
         usuario5.setNombre("Luis");
         usuario5.setApellido("Rodriguez");
+        usuario5.setEmail("luis.rodriguez@example.com");
+        usuario5.setPassword(passwordEncoder.encode("password123"));
         usuario5.setRol(Rol.USUARIO);
 
         cuenta1.addUsuario(usuario1);
         cuenta2.addUsuario(usuario1);
-        cuenta1.addUsuario(usuario2);
-        cuenta2.addUsuario(usuario3);
-        cuenta3.addUsuario(usuario4);
+        cuenta3.addUsuario(usuario2);
+        cuenta4.addUsuario(usuario3);
+        cuenta5.addUsuario(usuario4);
 
-        // guarrdar en la base de datos
-        UsuarioRepository usuarioRepository = usuarioRepositoryy;
-        usuarioRepository.save(usuario1);
-        usuarioRepository.save(usuario2);
-        usuarioRepository.save(usuario3);
-        usuarioRepository.save(usuario4);
-        usuarioRepository.save(usuario5);
-        CuentaRepository cuentaRepository = cuentaRepositoryy;
-        cuentaRepository.save(cuenta1);
-        cuentaRepository.save(cuenta2);
-        cuentaRepository.save(cuenta1);
-        cuentaRepository.save(cuenta2);
-        cuentaRepository.save(cuenta3);
+        // Agrego más cuentas y usuarios compartidos para tener datos de reportes
+
+        Cuenta cuenta6 = new Cuenta();
+        cuenta6.setIdMercadoPago("MP55667");
+        cuenta6.setSaldo(new BigDecimal("1200.00"));
+        cuenta6.setEstado(EstadoCuenta.ACTIVA);
+        cuenta6.setFechaAlta(LocalDate.now().minusDays(10));
+        cuenta6.setTipoCuenta(TipoCuenta.BASICA);
+        cuenta6.setKmConsumidosMes(20);
+        cuenta6.setFechaRenovacionCupo(LocalDate.now().plusMonths(2));
+
+        Cuenta cuenta7 = new Cuenta();
+        cuenta7.setIdMercadoPago("MP77889");
+        cuenta7.setSaldo(new BigDecimal("400.00"));
+        cuenta7.setEstado(EstadoCuenta.ACTIVA);
+        cuenta7.setFechaAlta(LocalDate.now().minusDays(5));
+        cuenta7.setTipoCuenta(TipoCuenta.BASICA);
+        cuenta7.setKmConsumidosMes(0);
+        cuenta7.setFechaRenovacionCupo(null);
+
+        Usuario usuario6 = new Usuario();
+        usuario6.setNombre("Sofia");
+        usuario6.setApellido("Fernandez");
+        usuario6.setEmail("sofia.fernandez@example.com");
+        usuario6.setPassword(passwordEncoder.encode("password123"));
+        usuario6.setRol(Rol.USUARIO);
+        usuario6.addCuenta(cuenta2); // comparte cuenta2 con Juan
+
+        Usuario usuario7 = new Usuario();
+        usuario7.setNombre("Diego");
+        usuario7.setApellido("Castro");
+        usuario7.setEmail("diego.castro@example.com");
+        usuario7.setPassword(passwordEncoder.encode("password123"));
+        usuario7.setRol(Rol.USUARIO);
+        usuario7.addCuenta(cuenta4); // comparte cuenta4 con Carlos
+
+        Usuario usuario8 = new Usuario();
+        usuario8.setNombre("Florencia");
+        usuario8.setApellido("Ruiz");
+        usuario8.setEmail("florencia.ruiz@example.com");
+        usuario8.setPassword(passwordEncoder.encode("password123"));
+        usuario8.setRol(Rol.USUARIO);
+        usuario8.addCuenta(cuenta3); // comparte cuenta3 con Maria
+        usuario8.addCuenta(cuenta6); // nueva cuenta compartida
+
+        Usuario usuario9 = new Usuario();
+        usuario9.setNombre("Martin");
+        usuario9.setApellido("Gonzalez");
+        usuario9.setEmail("martin.gonzalez@example.com");
+        usuario9.setPassword(passwordEncoder.encode("password123"));
+        usuario9.setRol(Rol.USUARIO);
+        usuario9.addCuenta(cuenta1); // comparte cuenta1 con Juan
+        usuario9.addCuenta(cuenta7);
+
+        // Asociaciones bidireccionales
+        cuenta2.addUsuario(usuario6);
+        cuenta4.addUsuario(usuario7);
+        cuenta3.addUsuario(usuario8);
+        cuenta6.addUsuario(usuario8);
+        cuenta1.addUsuario(usuario9);
+        cuenta7.addUsuario(usuario9);
+
+        // Compartir cuenta5 también con Maria (usuario2)
+        cuenta5.addUsuario(usuario2);
+        usuario2.addCuenta(cuenta5);
+
+        // guardar en la base de datos (guardar usuarios y cuentas nuevas)
+        usuarioRepositoryy.save(usuario1);
+        usuarioRepositoryy.save(usuario2);
+        usuarioRepositoryy.save(usuario3);
+        usuarioRepositoryy.save(usuario4);
+        usuarioRepositoryy.save(usuario5);
+        usuarioRepositoryy.save(usuario6);
+        usuarioRepositoryy.save(usuario7);
+        usuarioRepositoryy.save(usuario8);
+        usuarioRepositoryy.save(usuario9);
+
+        cuentaRepositoryy.save(cuenta1);
+        cuentaRepositoryy.save(cuenta2);
+        cuentaRepositoryy.save(cuenta3);
+        cuentaRepositoryy.save(cuenta4);
+        cuentaRepositoryy.save(cuenta5);
+        cuentaRepositoryy.save(cuenta6);
+        cuentaRepositoryy.save(cuenta7);
 
     }
 
 }
+

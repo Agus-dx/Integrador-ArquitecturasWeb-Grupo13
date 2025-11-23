@@ -28,6 +28,9 @@ public class Usuario {
     @Column(unique = true)
     private String email;
 
+    @Column(nullable = false, length = 60)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Rol rol;
