@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "6c90ed87-e9ef-4ce0-8ec6-0aba99680553",
+		"name": "Coleccion Postman - Consigna 4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49381949",
+		"_collection_link": "https://agus-dx-3824287.postman.co/workspace/Tecnicaturas-Web~0ced1d3a-f8aa-4857-92ec-bd6b3ee9af4e/collection/49381949-6c90ed87-e9ef-4ce0-8ec6-0aba99680553?action=share&source=collection_link&creator=49381949"
+	},
+	"item": [
+		{
+			"name": "Obtener token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"agus@gmail.com\",\r\n  \"password\": \"agus\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4a) Reporte Monopatines por kmTotales",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/monopatines/reportes-mantenimiento/10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"monopatines",
+						"reportes-mantenimiento",
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4b) Anular cuenta de usuario",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				]
+			},
+			"response": []
+		},
+		{
+			"name": "4c) monopatines con más de X viajes en un cierto año",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/viajes/monopatines-mas-x-viajes-anio?anio=2025&cantidad=5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"viajes",
+						"monopatines-mas-x-viajes-anio"
+					],
+					"query": [
+						{
+							"key": "anio",
+							"value": "2025"
+						},
+						{
+							"key": "cantidad",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4d) total facturado en un rango de meses de cierto año",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/facturas/total-facturado?anio=2025&mesDesde=1&mesHasta=12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"facturas",
+						"total-facturado"
+					],
+					"query": [
+						{
+							"key": "anio",
+							"value": "2025"
+						},
+						{
+							"key": "mesDesde",
+							"value": "1"
+						},
+						{
+							"key": "mesHasta",
+							"value": "12"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4e) usuarios-top-periodo",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "4f) ajuste de precios, y que a partir de cierta fecha el sistema habilite los nuevos precios",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/tarifas/actualizar-desde-fecha?fecha=2025-12-01&porcentajeIncremento=5.0",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tarifas",
+						"actualizar-desde-fecha"
+					],
+					"query": [
+						{
+							"key": "fecha",
+							"value": "2025-12-01"
+						},
+						{
+							"key": "porcentajeIncremento",
+							"value": "5.0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4g) monopatines cercanos a mi zona",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/paradas/monopatines-cercanos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"paradas",
+						"monopatines-cercanos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4h) usado los monopatines en un período, y opcionalmente si otros usuarios relacionados a mi cuenta los han usado",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/viajes/reportes-usuario",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"viajes",
+						"reportes-usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todas las cuentas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/cuentas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"cuentas"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener viajes",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZ3VzQGdtYWlsLmNvbSIsImF1dGgiOiJBRE1JTiIsImV4cCI6MTc2NDA5Njc0MCwiaWF0IjoxNzY0MDEwMzQwfQ.iOtd9anIxvlzQDa462pfXsh61ye00AW8X3_SvZ3q23DIRoURgaouEYAOYHpywpeqh5kBQ2bi4AblnvPYofau2g",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/api/viajes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"viajes"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
