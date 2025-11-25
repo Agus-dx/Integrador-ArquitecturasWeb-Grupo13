@@ -1,3 +1,37 @@
+/**
+ * 💾 Esquema Completo del Microservicio de Usuarios/Cuentas (MySQL).
+ *
+ * Este script DDL (Data Definition Language) y DML (Data Manipulation Language)
+ * define la estructura y los datos iniciales para la persistencia del
+ * Microservicio de Usuarios/Cuentas.
+ *
+ * ========================================================================
+ * 1. Tabla: `usuario`
+ * ========================================================================
+ * - Rol Principal: Gestiona la identidad básica y el rol de los usuarios
+ * (ADMIN, MANTENIMIENTO, USUARIO).
+ * - Campos Clave: 'email' (UNIQUE) y 'rol'.
+ *
+ * ========================================================================
+ * 2. Tabla: `cuenta`
+ * ========================================================================
+ * - Rol Principal: Gestiona la información financiera y de suscripción (Premium).
+ * - Campos Clave: 'saldo', 'tipo_cuenta' (ENUM: BASICA, PREMIUM), 'estado'
+ * (ENUM: ACTIVA, SUSPENDIDA).
+ * - Integración con Facturación: Contiene 'km_consumidos_mes' y
+ * 'fecha_renovacion_cupo', datos esenciales que el Microservicio de Facturación
+ * consulta y actualiza.
+ *
+ * ========================================================================
+ * 3. Tabla: `cuenta_usuario`
+ * ========================================================================
+ * - Rol Principal: Tabla de unión (relación N:M o 1:N) que asocia uno o más
+ * usuarios a una cuenta (Aunque los datos de ejemplo sugieren una relación
+ * cercana al 1:1, el diseño soporta N:M).
+ * - Relaciones: Claves foráneas hacia `cuenta` y `usuario`.
+ * ========================================================================
+ */
+
 -- MySQL dump 10.13  Distrib 9.4.0, for Linux (aarch64)
 --
 -- Host: localhost    Database: usuarios
