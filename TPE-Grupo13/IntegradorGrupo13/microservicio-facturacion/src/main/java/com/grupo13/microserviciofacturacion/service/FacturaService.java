@@ -1,3 +1,18 @@
+/**
+ * 💰 Capa de Servicio (Service Layer) para la gestión de Facturas.
+ *
+ * Este servicio implementa la lógica de negocio más compleja del microservicio:
+ * 1. Persistencia: Maneja las operaciones CRUD y las consultas de reportes
+ * agregados (`getTotalFacturadoPorRangoMeses`).
+ * 2. Integración: Utiliza **TarifaFeignClient** y **UsuarioFeignClient** para
+ * obtener datos necesarios para el cálculo de costos (patrón Gateway de Datos).
+ * 3. Lógica Financiera (`crearFacturaDesdeViaje`): Implementa las reglas de
+ * negocio para el **cálculo del importe final**, incluyendo descuentos para
+ * usuarios Premium, manejo del cupo mensual de kilómetros y recargos por tiempo
+ * de pausa.
+ * 4. Gestión de Premium: Llama a `actualizarKmConsumidos` en el servicio de
+ * Usuarios para mantener el estado del cupo de kilómetros Premium.
+ */
 package com.grupo13.microserviciofacturacion.service;
 
 import com.grupo13.microserviciofacturacion.dto.TotalFacturadoDTO;

@@ -1,3 +1,12 @@
+/**
+ * 🏛️ Entidad JPA (Modelo de Dominio) para la tabla 'viaje'.
+ *
+ * Define la estructura de datos que representa un viaje de alquiler de monopatín.
+ * Utiliza anotaciones de Lombok (@Getter, @Setter) para simplificar el código
+ * y anotaciones de JPA (@Entity, @Table) para el mapeo con la base de datos.
+ * Incluye campos clave para la referencia a otros microservicios (Monopatín,
+ * Usuario, Cuenta, Tarifa, Paradas) y lógica de persistencia para la fecha de inicio.
+ */
 package com.grupo13.microservicioviaje.model;
 
 import jakarta.persistence.*;

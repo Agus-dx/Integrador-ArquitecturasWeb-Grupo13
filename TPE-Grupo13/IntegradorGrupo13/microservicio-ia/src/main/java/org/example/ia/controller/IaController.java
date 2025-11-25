@@ -1,3 +1,21 @@
+/**
+ * 💻 Controlador REST (IaController) para el Microservicio de IA.
+ *
+ * Este controlador expone el endpoint principal para interactuar con la IA
+ * (Groq/Ollama).
+ * * Endpoint: POST /api/ia/prompt
+ * Recibe un prompt (pregunta o instrucción en lenguaje natural) del cliente.
+ * * Responsabilidad:
+ * 1. Recepción: Recibe la instrucción del usuario en el cuerpo de la solicitud (`@RequestBody String prompt`).
+ * 2. Delegación: Delega inmediatamente la lógica compleja (interacción con el LLM,
+ * procesamiento de la respuesta, potencial ejecución de SQL) al `IaService`.
+ * 3. Manejo de Errores: Captura cualquier excepción en el proceso de IA/Base de Datos
+ * y devuelve un código 500 (`INTERNAL_SERVER_ERROR`).
+ *
+ * NOTA: El comentario interno describe un flujo complejo donde la IA genera SQL,
+ * el service la ejecuta y devuelve los resultados. Esto implica que el IaService
+ * tendrá que manejar la conexión a la base de datos y la ejecución dinámica de consultas.
+ */
 package org.example.ia.controller;
 
 import org.example.ia.service.IaService;

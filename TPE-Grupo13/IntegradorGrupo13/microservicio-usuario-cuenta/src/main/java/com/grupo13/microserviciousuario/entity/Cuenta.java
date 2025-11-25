@@ -1,3 +1,17 @@
+/**
+ * 🏛️ Entidad JPA (Modelo de Dominio) para la tabla 'Cuenta'.
+ *
+ * Define la estructura de las cuentas de usuario, incluyendo el saldo, el estado
+ * (ACTIVA/INACTIVA) y el tipo de cuenta (BÁSICA/PREMIUM). Es la entidad central
+ * que gestiona el dinero.
+ * * Aspectos clave:
+ * 1. Mapeo @ManyToMany con Usuario, permitiendo que una cuenta esté asociada a
+ * múltiples usuarios.
+ * 2. Uso de @Enumerated(EnumType.STRING) para manejar el Estado y Tipo de Cuenta.
+ * 3. Lógica @PrePersist para inicializar campos (fechaAlta, estado, saldo, tipoCuenta).
+ * 4. Uso de @JsonIgnore en la relación 'usuarios' para evitar ciclos de serialización
+ * infinitos al exponer la cuenta por API.
+ */
 package com.grupo13.microserviciousuario.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

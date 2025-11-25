@@ -1,3 +1,16 @@
+/**
+ * 🛴 Controlador REST (API Layer) para la gestión de Monopatines.
+ *
+ * Es el punto de entrada HTTP principal para la administración de los monopatines
+ * como activos móviles del sistema. Expone endpoints críticos para:
+ * 1. CRUD básico y Actualizaciones de Estado/Ubicación (POST, DELETE, PATCH, PUT /estado/{estado}).
+ * 2. **Integración con Paradas:** (GET /parada/{idParada}) Endpoint consumido por
+ * el Microservicio de Paradas para obtener el inventario de vehículos en una
+ * estación específica, con filtrado opcional por estado (ej. "LIBRE").
+ * 3. **Mantenimiento y Reportes:** (GET /reportes-mantenimiento/{kmMaximo})
+ * Genera listas de monopatines que superan un umbral de kilometraje, crucial
+ * para la logística de mantenimiento.
+ */
 package com.grupo13.microserviciomonopatin.controllers;
 
 import com.grupo13.microserviciomonopatin.dtos.MonopatinDTO;
@@ -159,5 +172,7 @@ public class MonopatinController {
 
         return ResponseEntity.ok(monopatinesEnParada);
     }
+
+
 
 }

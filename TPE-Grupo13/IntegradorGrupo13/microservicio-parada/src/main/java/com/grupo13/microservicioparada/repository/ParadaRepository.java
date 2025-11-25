@@ -1,9 +1,18 @@
+/**
+ * 💾 Repositorio de Spring Data JPA para la entidad Parada.
+ *
+ * Extiende JpaRepository para proporcionar métodos CRUD básicos.
+ * Su función principal es implementar la lógica de **Geocercanía** * mediante una consulta SQL nativa (@NativeQuery) que utiliza la
+ * **Fórmula del Haversine**.
+ * - findParadasCercanas: Calcula la distancia esférica entre la ubicación
+ * del usuario y todas las paradas, devolviendo solo aquellas que están
+ * dentro de un radio específico (en kilómetros).
+ */
 package com.grupo13.microservicioparada.repository;
 
 import com.grupo13.microservicioparada.model.Parada;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

@@ -1,3 +1,23 @@
+/**
+ * 🤖 Cliente HTTP (GroqClient) para el Microservicio de IA.
+ *
+ * Esta clase NO utiliza Feign, sino la clase nativa **RestTemplate** de Spring
+ * para gestionar la comunicación síncrona con la API externa de Groq (un proveedor
+ * de Modelos de Lenguaje). Su propósito es ser el único punto de contacto
+ * para generar respuestas de IA dentro del microservicio.
+ * * Configuración y Seguridad:
+ * 1. Inicialización: Carga la URL base, el modelo (por defecto llama-3.1-8b-instant)
+ * y la **API Key** desde las propiedades de Spring.
+ * 2. Validación: Realiza validaciones críticas sobre el formato de la API Key
+ * ('gsk_') y su existencia.
+ * 3. Autenticación: Agrega la API Key como **Bearer Token** en el encabezado
+ * de cada solicitud, fundamental para la seguridad.
+ * * Método Central (`preguntar`):
+ * Implementa la lógica de la llamada al endpoint /v1/chat/completions,
+ * construye el cuerpo JSON con el modelo y el prompt, y parsea la compleja
+ * respuesta JSON para extraer solo el texto generado.
+ */
+
 package org.example.ia.client;
 
 import ch.qos.logback.classic.Logger;

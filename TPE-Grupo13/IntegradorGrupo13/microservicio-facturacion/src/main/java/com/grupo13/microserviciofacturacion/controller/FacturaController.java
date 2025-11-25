@@ -1,3 +1,17 @@
+/**
+ * 💰 Controlador REST (API Layer) para la gestión de Facturas y Reportes.
+ *
+ * Este controlador es fundamental para la **gestión financiera** del sistema,
+ * ya que se encarga de crear registros de cobro (Facturas) y generar reportes
+ * agregados sobre los ingresos.
+ * * Endpoints Clave:
+ * 1. CRUD básico: Permite gestionar las entidades de Factura.
+ * 2. Integración: (POST /viaje) Es el endpoint crítico consumido por el
+ * Microservicio de Viajes para **generar la factura** una vez que un viaje
+ * ha finalizado y ha sido tarifado.
+ * 3. Reportes: (GET /entre-fechas, GET /total-facturado) Proporciona información
+ * financiera agregada, vital para la auditoría y la toma de decisiones.
+ */
 package com.grupo13.microserviciofacturacion.controller;
 
 import com.grupo13.microserviciofacturacion.dto.TotalFacturadoDTO;
@@ -47,6 +61,7 @@ public class FacturaController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    // d
     @GetMapping("/total-facturado")
     public ResponseEntity<?> getTotalFacturado(
             @RequestParam int anio,

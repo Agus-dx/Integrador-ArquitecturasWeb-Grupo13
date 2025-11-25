@@ -1,3 +1,14 @@
+/**
+ * 📤 DTO Principal de Respuesta (Data Transfer Object) para la entidad Tarifa.
+ *
+ * Esta clase se utiliza para serializar y deserializar la información de las tarifas
+ * que se comunica entre el Microservicio de Tarifas y los clientes externos (incluyendo
+ * el Microservicio de Viajes). Su propósito es:
+ * 1. Exponer de manera estructurada todos los parámetros de costo de la entidad Tarifa.
+ * 2. Facilitar la conversión desde la entidad JPA (a través del constructor TarifaDTO(Tarifa)).
+ * 3. Proporcionar constructores para la creación de nuevas tarifas y para la
+ * representación completa de la información de precios.
+ */
 package com.grupo13.microserviciotarifa.dto;
 
 import com.grupo13.microserviciotarifa.entity.Tarifa;

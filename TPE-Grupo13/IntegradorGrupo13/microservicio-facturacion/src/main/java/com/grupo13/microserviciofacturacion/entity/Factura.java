@@ -1,3 +1,18 @@
+/**
+ * 📝 Entidad JPA (Modelo de Dominio) para la tabla 'factura'.
+ *
+ * Define la estructura de los registros de cobro generados en el sistema.
+ * Es la entidad principal del Microservicio de Facturación.
+ * * Aspectos clave:
+ * 1. Campos Financieros: Almacena el 'importe' y la 'fechaEmision'.
+ * 2. Referencias Lógicas (Claves Externas): Mantiene referencias a IDs de otros
+ * microservicios para contextualizar la factura:
+ * - usuarioId: ¿Quién pagó? (Microservicio de Usuarios/Cuentas)
+ * - viajeId: ¿Qué servicio se facturó? (Microservicio de Viajes)
+ * - tarifaId: ¿Qué regla de costo se aplicó? (Microservicio de Tarifas)
+ * 3. Identificador Único: 'numeroFactura' está marcado como único, asegurando
+ * que cada documento de cobro tenga una referencia fiscal inmutable.
+ */
 package com.grupo13.microserviciofacturacion.entity;
 
 import jakarta.persistence.*;

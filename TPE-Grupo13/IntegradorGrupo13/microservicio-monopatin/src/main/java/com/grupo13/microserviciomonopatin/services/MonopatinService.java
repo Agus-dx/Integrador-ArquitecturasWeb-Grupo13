@@ -1,3 +1,18 @@
+/**
+ * 🛠️ Capa de Servicio (Service Layer) para la gestión de Monopatines.
+ *
+ * Contiene la lógica de negocio principal para la gestión de activos móviles.
+ * Es responsable de:
+ * 1. Persistencia: Interactúa con el MonopatinRepository (MongoDB) para
+ * operaciones CRUD, búsqueda por ID de Parada, y filtrado por Estado.
+ * 2. Integración: Utiliza el **ParadaFeignClient** para verificar la existencia
+ * de la Parada al crear/actualizar un Monopatín y para enriquecer la respuesta
+ * con datos de la Parada (`getMonopatinConParada`).
+ * 3. Validación: Valida el **Estado** del Monopatín usando un Enum antes de la
+ * persistencia.
+ * 4. Reportes: Implementa la lógica para generar reportes de Mantenimiento
+ * basándose en los kilómetros recorridos.
+ */
 package com.grupo13.microserviciomonopatin.services;
 
 import com.grupo13.microserviciomonopatin.dtos.MonopatinDTO;

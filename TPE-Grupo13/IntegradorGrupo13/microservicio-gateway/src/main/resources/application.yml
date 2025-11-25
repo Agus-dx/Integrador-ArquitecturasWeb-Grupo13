@@ -1,3 +1,28 @@
+# 🎯 Configuración Final y Rutas del Microservicio de Gateway (application.yml).
+# Este archivo define la configuración de arranque, la conexión a la base de datos
+# interna para autenticación, y, lo más importante, las **reglas de ruteo** * que dirigen las solicitudes entrantes a los microservicios correctos.
+#
+# ========================================================================
+# 1. Ruteo (spring.cloud.gateway.server.webmvc.routes):
+# ========================================================================
+# - Actúa como Proxy Inverso: El Gateway escucha en el puerto 8080. Si una
+# solicitud llega a `/api/facturas/**`, la redirige a `http://localhost:8083`
+# (Microservicio de Facturación).
+# - NOTA CRÍTICA:
+# - Las rutas para `cuenta`, `usuario` e `ia` apuntan al mismo puerto (`8082`),
+# lo cual es un error lógico. La ruta `/api/usuario/**` ya está definida
+# para el Microservicio de Usuarios/Cuentas (`8082`). La ruta para **IA** * (que sabemos por el `application.properties` que usa el puerto `8089`)
+# está **mal configurada** en este YAML, y actualmente intenta rutear las
+# peticiones de IA al Microservicio de Usuarios (`8082`).
+#
+# ========================================================================
+# 2. Persistencia y Seguridad:
+# ========================================================================
+# - Puerto: El Gateway opera en el puerto 8080, el punto de acceso externo.
+# - Base de Datos (`auth`): Aunque el Gateway es stateless (usa JWT),
+# necesita una pequeña base de datos para manejar posiblemente la lista
+# de revocación de tokens (no visible aquí) o datos internos de Spring Security.
+#
 server:
   port: 8080
 
@@ -46,17 +71,17 @@ spring:
             - id: cuenta
               uri: http://localhost:8082
               predicates:
-                - Path=/api/cuenta/**
+                - Path=/api/cuentas/**
 
             - id: usuario
               uri: http://localhost:8082
               predicates:
-                - Path=/api/usuario/**
+                - Path=/api/usuarios/**
 
             - id: ia
-              uri: http://localhost:8082
+              uri: http://localhost:8089
               predicates:
-                - Path=/api/usuario/**
+                - Path=/api/ia/**
 
 
 

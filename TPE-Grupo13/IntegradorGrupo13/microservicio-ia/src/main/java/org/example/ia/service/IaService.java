@@ -1,3 +1,30 @@
+/**
+ * 🤖 Capa de Servicio (IaService) para la Funcionalidad Text-to-SQL.
+ *
+ * Este servicio implementa el flujo completo para convertir una pregunta en
+ * lenguaje natural en una consulta de base de datos y ejecutarla.
+ * * * Componentes Clave:
+ * 1. GroqClient: Utilizado para enviar el prompt y recibir la sentencia SQL generada.
+ * 2. EntityManager (`@PersistenceContext`): Utilizado para ejecutar consultas
+ * SQL NATIVAS (`createNativeQuery`) directamente en la base de datos (JDBC/JPA).
+ * 3. `CONTEXTO_SQL`: Carga el esquema de la base de datos desde un archivo
+ * (esquema_completo.sql) para inyectarlo en el prompt, lo que permite a la IA
+ * saber contra qué tablas y columnas debe generar la consulta.
+ * * * Lógica de Seguridad y Ejecución (`procesarPrompt`):
+ * 1. Generación de Prompt: Combina el esquema SQL con la pregunta del usuario
+ * para crear un prompt altamente contextualizado.
+ * 2. Extracción Segura (`extraerConsultaSQL`): Utiliza expresiones regulares
+ * (Patterns) para:
+ * a. **Validar:** Solo acepta sentencias que comiencen con SELECT, INSERT,
+ * UPDATE o DELETE y terminen en ';'.
+ * b. **Limpieza:** Extrae ÚNICAMENTE la primera sentencia SQL generada.
+ * c. **Seguridad (CRÍTICO):** Bloquea la ejecución de comandos DDL peligrosos
+ * como DROP, TRUNCATE, ALTER o CREATE para evitar la corrupción de la base de datos.
+ * 3. Ejecución Transaccional: `@Transactional` permite ejecutar sentencias DML
+ * (INSERT/UPDATE/DELETE) que modifican el estado de la base de datos.
+ * a. SELECT: Se ejecuta con `getResultList`.
+ * b. DML: Se ejecuta con `executeUpdate` (devuelve el número de filas afectadas).
+ */
 package org.example.ia.service;
 
 import jakarta.persistence.EntityManager;
@@ -20,12 +47,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 👉 Servicio que:
+ * Servicio que:
  * - Construye el prompt con el esquema SQL
  * - Llama a Groq para generar SQL
  * - Valida y extrae una ÚNICA sentencia SQL (SELECT/INSERT/UPDATE/DELETE)
  * - Ejecuta de forma segura (bloquea DDL peligrosos)
  */
+
 @Service
 public class IaService {
 

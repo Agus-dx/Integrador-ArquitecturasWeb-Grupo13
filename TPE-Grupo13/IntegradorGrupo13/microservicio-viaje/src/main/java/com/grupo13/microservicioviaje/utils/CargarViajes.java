@@ -1,3 +1,10 @@
+/**
+ * 🎯 Componente de inicialización de datos (Data Seeding) para Spring Boot.
+ *
+ * Implementa CommandLineRunner para ejecutar la lógica de carga de viajes
+ * de prueba en la base de datos tan pronto como la aplicación arranca,
+ * asegurando datos consistentes para pruebas y desarrollo.
+ */
 package com.grupo13.microservicioviaje.utils;
 
 import com.grupo13.microservicioviaje.model.Viaje;

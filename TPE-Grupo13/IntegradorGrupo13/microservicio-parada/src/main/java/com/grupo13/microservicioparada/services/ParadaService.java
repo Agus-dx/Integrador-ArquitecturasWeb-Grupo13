@@ -1,3 +1,16 @@
+/**
+ * 🛠️ Capa de Servicio (Service Layer) para la gestión de Paradas.
+ *
+ * Contiene la lógica de negocio y las operaciones de acceso a datos para la entidad Parada.
+ * Es responsable de:
+ * 1. Implementar operaciones CRUD y de actualización parcial (patch).
+ * 2. **Geolocalización:** Implementa la búsqueda de paradas cercanas utilizando una
+ * consulta de repositorio (`findParadasCercanas`) con un radio máximo definido.
+ * 3. **Integración con Monopatines:** Utiliza el Feign Client (`MonopatinFeignClient`)
+ * para orquestar la consulta y obtener el inventario de monopatines (todos o solo los
+ * libres) asociados a una parada específica, lo que es esencial para la funcionalidad
+ * de inicio de viaje.
+ */
 package com.grupo13.microservicioparada.services;
 
 import com.grupo13.microservicioparada.dtos.ParadaDTO;
@@ -9,6 +22,7 @@ import com.grupo13.microservicioparada.repository.ParadaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,5 +132,21 @@ public class ParadaService {
             parada.setLongitud(paradaEditada.longitud());
 
         return new ParadaDTO(repository.save(parada));
+    }
+
+    public List<Map<String, Object>> buscarMonopatinesLibresEnParadasCercanas(List<ParadaDTO> paradasCercanas) {
+        List<Map<String, Object>> resultados = new ArrayList<>();
+
+        for (ParadaDTO parada : paradasCercanas) {
+            // Reutilizar la lógica que está en findParadaConMonopatinesLibres
+            // Se asume que este método llama al Microservicio de Monopatines (FeignClient)
+            Map<String, Object> resultadoParada = findParadaConMonopatinesLibres(parada.getId());
+
+            // El resultado debe ser agregado solo si tiene monopatines
+            if (!resultadoParada.get("monopatinesLibres").getClass().equals(String.class)) {
+                resultados.add(resultadoParada);
+            }
+        }
+        return resultados;
     }
 }

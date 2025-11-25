@@ -1,3 +1,12 @@
+/**
+ * 📥 DTO de Solicitud (Request DTO) para el Microservicio de Facturación.
+ *
+ * Esta clase actúa como un objeto de transporte de datos, tomando la información
+ * relevante de un 'Viaje' (ID, usuario, distancia, pausa) y estructurándola
+ * para ser enviada al Microservicio de Facturación. Su constructor facilita
+ * la conversión de una entidad 'Viaje' a la estructura de datos que el
+ * servicio de facturación espera para calcular y emitir la factura final.
+ */
 package com.grupo13.microservicioviaje.feignModels;
 
 import com.grupo13.microservicioviaje.model.Viaje;

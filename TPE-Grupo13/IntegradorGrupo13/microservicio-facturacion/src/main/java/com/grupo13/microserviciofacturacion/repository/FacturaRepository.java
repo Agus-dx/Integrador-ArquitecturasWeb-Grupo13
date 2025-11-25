@@ -1,3 +1,15 @@
+/**
+ * 💾 Repositorio JPA para la entidad Factura.
+ *
+ * Extiende JpaRepository para proporcionar operaciones CRUD básicas.
+ * Define consultas personalizadas usando JPQL (Java Persistence Query Language)
+ * para las operaciones de reporting y búsqueda basadas en fechas.
+ * * Consultas Clave:
+ * 1. findByFechaBetween: Permite consultar todas las facturas emitidas en un
+ * rango de fechas específico.
+ * 2. getTotalFacturadoPorRangoMeses: Consulta crítica que realiza una **agregación** * (SUM) sobre el importe de las facturas dentro de un rango de meses y un año
+ * dados. Utiliza funciones SQL nativas como YEAR() y MONTH() dentro del JPQL.
+ */
 package com.grupo13.microserviciofacturacion.repository;
 
 import com.grupo13.microserviciofacturacion.entity.Factura;

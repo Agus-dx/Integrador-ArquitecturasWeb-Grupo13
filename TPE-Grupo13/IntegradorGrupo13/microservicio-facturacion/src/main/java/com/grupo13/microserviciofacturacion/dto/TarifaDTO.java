@@ -1,3 +1,19 @@
+/**
+ * 💸 DTO de Entrada/Modelo de Datos Externo para Tarifa.
+ *
+ * Esta clase NO es una entidad de persistencia en este microservicio. Es el
+ * objeto que el Facturación Service espera recibir cuando consulta al
+ * Microservicio de Tarifas a través del Feign Client.
+ * * Propósito:
+ * 1. Definir Contrato: Asegura que la Facturación Service sepa qué datos
+ * esperar para el cálculo de costos.
+ * 2. Campos Clave: Contiene todos los parámetros necesarios para la lógica
+ * de cobro:
+ * - monto (tarifa variable por KM).
+ * - montoExtra (tarifa fija por viaje).
+ * - reglas de recargo (tiempoMaximoPausaMinutos, porcentajeRecargoPausa).
+ * - cuotaMensualPremium (relevante para el servicio de Usuarios/Cuentas).
+ */
 package com.grupo13.microserviciofacturacion.dto;
 
 import lombok.AllArgsConstructor;

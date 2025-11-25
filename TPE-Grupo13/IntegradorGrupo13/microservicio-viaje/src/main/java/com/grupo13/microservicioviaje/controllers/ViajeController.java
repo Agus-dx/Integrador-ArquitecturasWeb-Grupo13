@@ -1,6 +1,17 @@
+/**
+ * 🌐 Controlador REST (API Layer) para la gestión de Viajes.
+ *
+ * Es el punto de entrada HTTP para el Microservicio de Viajes.
+ * Se encarga de mapear las URLs (GET, POST, PATCH, DELETE) a los métodos del
+ * servicio, procesar los parámetros de la petición (Path Variables, Request Body,
+ * Query Params) y construir la respuesta HTTP adecuada, incluyendo la gestión
+ * de códigos de estado como 200, 201, 204 y el manejo de excepciones de negocio
+ * (400 Bad Request) y no encontradas (404 Not Found).
+ */
 package com.grupo13.microservicioviaje.controllers;
 
 import com.grupo13.microservicioviaje.dtos.ReporteViajePeriodoDTO;
+import com.grupo13.microservicioviaje.dtos.ReporteViajeUsuariosDTO;
 import com.grupo13.microservicioviaje.dtos.ViajeDTO;
 import com.grupo13.microservicioviaje.model.Viaje;
 import com.grupo13.microservicioviaje.services.ViajeService;
@@ -51,35 +62,107 @@ public class ViajeController {
     @GetMapping("/reportes")
     public ResponseEntity<?> getReporteViajes(
             @RequestParam(required = false, name = "anio") Integer anio,
-            @RequestParam(required = false, name = "cantidad") Integer cantidad,
+            @RequestParam(required = false, name = "cantidad") Long cantidad,
             @RequestParam(required = false, name = "anioDesde") Integer anioDesde,
             @RequestParam(required = false, name = "anioHasta") Integer anioHasta,
-            @RequestParam(required = false, name = "idUsuario") Long idUsuario) {
+            @RequestParam(required = false, name = "rol") String rol) {
 
         try {
+            // c - Reporte por año específico
             if (anio != null && cantidad != null) {
                 List<ReporteViajePeriodoDTO> reportes = service.getReporteViajeAnio(anio, cantidad);
                 return reportes.isEmpty()
                         ? ResponseEntity.noContent().build()
                         : ResponseEntity.ok(reportes);
             }
-            if (anioDesde != null && anioHasta != null && idUsuario != null) {
-                Map<String, Object> reportes = service.getReportesUsuarioYasociadosPerido(idUsuario, anioDesde, anioHasta);
-                return reportes.isEmpty()
-                        ? ResponseEntity.noContent().build()
-                        : ResponseEntity.ok(reportes);
-            }
-            if (anioDesde != null && anioHasta != null) {
-                List<?> reportes = service.getReporteViajesPorUsuariosPeriodo(anioDesde, anioHasta);
-                return reportes.isEmpty()
-                        ? ResponseEntity.noContent().build()
-                        : ResponseEntity.ok(reportes);
-            }
 
+            // Reporte general por período
+            if (anioDesde != null && anioHasta != null && rol != null) {
+                List<ReporteViajeUsuariosDTO> reportes = service.getReporteViajesPorUsuariosPeriodo(anioDesde, anioHasta, rol);
+                return reportes.isEmpty()
+                        ? ResponseEntity.noContent().build()
+                        : ResponseEntity.ok(reportes);
+            }
             return ResponseEntity.badRequest()
-                    .body("Parámetros inválidos. Opciones: (anio+cantidad) | (anioDesde+anioHasta+idUsuario) | (anioDesde+anioHasta)");
+                    .body("Parámetros inválidos.");
 
         } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al generar reporte: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Reporte C: Consulta monopatines con más de X viajes en un año específico.
+     * Requiere: anio y cantidad (X viajes).
+     */
+    @GetMapping("/reportes/monopatines-mas-x-viajes-anio")
+    public ResponseEntity<?> getMonopatinesMasXViajesAnio(
+            @RequestParam(name = "anio", required = true) Integer anio,
+            @RequestParam(name = "cantidad", required = true) Long cantidad) {
+        try {
+            List<ReporteViajePeriodoDTO> reportes = service.getReporteViajeAnio(anio, cantidad);
+
+            return reportes.isEmpty()
+                    ? ResponseEntity.noContent().build()
+                    : ResponseEntity.ok(reportes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al generar reporte de monopatines populares: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Reporte E: Consulta usuarios que más utilizan monopatines en un periodo, filtrado por rol.
+     * Requiere: anioDesde, anioHasta y rol.
+     */
+    @GetMapping("/reportes/usuarios-top-periodo")
+    public ResponseEntity<?> getUsuariosTopPeriodo(
+            @RequestParam(name = "anioDesde", required = true) Integer anioDesde,
+            @RequestParam(name = "anioHasta", required = true) Integer anioHasta,
+            @RequestParam(name = "rol", required = true) String rol) {
+        try {
+            List<ReporteViajeUsuariosDTO> reportes = service.getReporteViajesPorUsuariosPeriodo(anioDesde, anioHasta, rol);
+
+            return reportes.isEmpty()
+                    ? ResponseEntity.noContent().build()
+                    : ResponseEntity.ok(reportes);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // La excepción de tipo de rol inválido se manejará aquí, devolviendo 500 o puedes refinarla a 400.
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al generar reporte de usuarios top: " + e.getMessage());
+        }
+    }
+
+
+    @GetMapping("/reportes-usuario")
+    public ResponseEntity<?> getReporteViajesUsuario(
+            @RequestParam(required = true, name = "anioDesde") Integer anioDesde,
+            @RequestParam(required = true, name = "anioHasta") Integer anioHasta,
+            @RequestParam(required = true, name = "idUsuario") Long idUsuario,
+            @RequestParam(required = false, defaultValue = "false", name = "incluirAsociados")
+            Boolean incluirAsociados) {
+
+        try {
+            // Reporte de usuario en período (años) y cuentas asociadas
+            // El servicio debe buscar viajes cuya fecha de finalización esté en el rango [anioDesde, anioHasta].
+            Map<String, Object> reportes = service.getReportesUsuarioYasociadosPerido(
+                    idUsuario,
+                    anioDesde,
+                    anioHasta,
+                    incluirAsociados // Pasar el flag al servicio
+            );
+
+            return reportes.isEmpty()
+                    ? ResponseEntity.noContent().build()
+                    : ResponseEntity.ok(reportes);
+        }
+        catch (Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al generar reporte: " + e.getMessage());

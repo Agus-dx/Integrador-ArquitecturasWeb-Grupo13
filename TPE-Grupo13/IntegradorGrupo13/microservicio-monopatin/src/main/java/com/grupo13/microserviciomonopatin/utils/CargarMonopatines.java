@@ -1,3 +1,17 @@
+/**
+ * 🛠️ Componente de Carga de Datos Iniciales (Data Seeder) para Monopatines.
+ *
+ * Implementa la interfaz CommandLineRunner para poblar la base de datos
+ * de **MongoDB** con documentos de monopatines de prueba al iniciar la aplicación.
+ * Su propósito es:
+ * 1. Garantizar que el sistema tenga activos móviles disponibles desde el arranque.
+ * 2. Cargar monopatines con **atributos clave** (Estado, Latitud/Longitud,
+ * Métricas de Uso, y referencia a Parada) para permitir la prueba inmediata
+ * de todas las funcionalidades, incluyendo la búsqueda de monopatines libres
+ * por parada y la generación de reportes de mantenimiento.
+ * 3. La verificación 'if(this.repository.count() > 0) return;' evita la recarga
+ * en reinicios.
+ */
 package com.grupo13.microserviciomonopatin.utils;
 
 import com.grupo13.microserviciomonopatin.model.Estado;

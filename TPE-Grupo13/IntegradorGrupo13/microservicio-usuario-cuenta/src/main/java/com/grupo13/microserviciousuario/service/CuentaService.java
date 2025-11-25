@@ -1,3 +1,14 @@
+/**
+ * 🛠️ Capa de Servicio (Service Layer) para la gestión de Cuentas.
+ *
+ * Contiene la lógica de negocio y las operaciones transaccionales para la entidad Cuenta.
+ * Es responsable de:
+ * 1. Implementar las operaciones CRUD básicas.
+ * 2. Manejar la lógica específica, como el cambio de estado de la cuenta.
+ * 3. Implementar el método crucial 'restarSaldoCuenta', que garantiza la validación
+ * del saldo y la integridad transaccional (@Transactional) al debitar fondos,
+ * lanzando excepciones claras en caso de error (no encontrada o saldo insuficiente).
+ */
 package com.grupo13.microserviciousuario.service;
 
 import com.grupo13.microserviciousuario.entity.Cuenta;
@@ -37,10 +48,6 @@ public class CuentaService {
 
     @Transactional
     public void delete(Long id) {
-        // Se asegura que la cuenta exista antes de intentar eliminar
-        if (!cuentaRepository.existsById(id)) {
-            throw new RuntimeException("Cuenta no encontrada con ID: " + id);
-        }
         cuentaRepository.deleteById(id);
     }
 
@@ -53,13 +60,15 @@ public class CuentaService {
         // Lanza RuntimeException si no encuentra la cuenta
         Cuenta cuenta = cuentaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Cuenta no encontrada con ID: " + id));
-
+        if(cuenta != null){
         if(cuenta.getEstado() == com.grupo13.microserviciousuario.entity.EstadoCuenta.ACTIVA){
             cuenta.setEstado(com.grupo13.microserviciousuario.entity.EstadoCuenta.SUSPENDIDA);
         } else if (cuenta.getEstado() == com.grupo13.microserviciousuario.entity.EstadoCuenta.SUSPENDIDA) {
             cuenta.setEstado(com.grupo13.microserviciousuario.entity.EstadoCuenta.ACTIVA);
         }
         return cuentaRepository.save(cuenta);
+        }
+        return null;
     }
 
     /**

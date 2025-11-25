@@ -24,8 +24,6 @@
         <module>microservicio-tarifa</module>
         <module>microservicio-viaje</module>
         <module>microservicio-ia</module>
-
-
     </modules>
 
     <dependencies>

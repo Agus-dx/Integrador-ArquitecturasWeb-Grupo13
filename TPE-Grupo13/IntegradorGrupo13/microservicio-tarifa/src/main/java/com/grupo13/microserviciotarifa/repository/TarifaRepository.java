@@ -1,3 +1,16 @@
+/**
+ * 💾 Repositorio de Spring Data JPA para la entidad Tarifa.
+ *
+ * Extiende JpaRepository para proporcionar métodos CRUD básicos.
+ * Define métodos de consulta basados en nombres (findByFecha, findByMonto)
+ * y dos consultas JPQL personalizadas clave:
+ * 1. findTarifasVigentesDesde: Busca todas las tarifas cuya fecha de inicio es
+ * anterior o igual a la fecha dada, ordenadas descendentemente por fecha.
+ * Esto permite identificar la tarifa más reciente y vigente para un momento dado.
+ * 2. actualizarTarifaDesdeFecha: Define una consulta DML (@Modifying) para
+ * actualizar el monto de una tarifa específica basada en su fecha, aunque esta
+ * lógica se implementa de manera transaccional en el Service.
+ */
 package com.grupo13.microserviciotarifa.repository;
 
 import com.grupo13.microserviciotarifa.entity.Tarifa;

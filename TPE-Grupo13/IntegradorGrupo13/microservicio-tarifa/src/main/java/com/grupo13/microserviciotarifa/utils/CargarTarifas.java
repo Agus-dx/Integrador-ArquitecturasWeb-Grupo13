@@ -1,3 +1,16 @@
+/**
+ * 🛠️ Componente de Carga de Datos Iniciales (Data Seeder) para Tarifas.
+ *
+ * Implementa la interfaz CommandLineRunner para poblar la base de datos
+ * del Microservicio de Tarifas con datos iniciales (tarifas de prueba)
+ * al iniciar la aplicación.
+ * Su propósito es:
+ * 1. Garantizar que existan tarifas definidas desde el arranque para que el
+ * Microservicio de Viajes pueda calcular costos.
+ * 2. Cargar un historial de tarifas con diferentes fechas de vigencia (2025-01-01,
+ * 2025-02-01, 2025-03-01) para permitir la prueba de la lógica de búsqueda de
+ * tarifas vigentes.
+ */
 package com.grupo13.microserviciotarifa.utils;
 
 import com.grupo13.microserviciotarifa.entity.Tarifa;
@@ -17,6 +30,7 @@ public class CargarTarifas implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (tarifaRepository.count() == 0) {
+            if(this.tarifaRepository.count() > 0) return;
             System.out.println("Cargando tarifas de prueba...");
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 

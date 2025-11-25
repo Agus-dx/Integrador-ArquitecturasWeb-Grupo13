@@ -1,3 +1,16 @@
+/**
+ * 🛠️ Componente de Carga de Datos Iniciales (Data Seeder).
+ *
+ * Implementa la interfaz CommandLineRunner, lo que garantiza que el método 'run'
+ * se ejecute una vez que la aplicación Spring Boot ha arrancado completamente y
+ * todas las dependencias (como Repositorios y PasswordEncoder) han sido inyectadas.
+ * Su propósito es:
+ * 1. Crear usuarios de ejemplo con diferentes Roles.
+ * 2. Crear cuentas con distintos Tipos y Estados.
+ * 3. Establecer las relaciones Many-to-Many entre usuarios y cuentas, incluyendo
+ * casos de cuentas compartidas.
+ * 4. Codificar las contraseñas usando PasswordEncoder antes de la persistencia.
+ */
 package com.grupo13.microserviciousuario.utils;
 
 import java.math.BigDecimal;
@@ -27,14 +40,17 @@ public class CargaUsuarios implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        if(this.usuarioRepository.count() > 0) return;
+        if(this.cuentaRepository.count() > 0) return;
         CargarDatosIniciales(usuarioRepository, cuentaRepository, passwordEncoder);
     }
 
     public static void CargarDatosIniciales(UsuarioRepository usuarioRepositoryy, CuentaRepository cuentaRepositoryy, PasswordEncoder passwordEncoder) {
         // Lógica para cargar datos iniciales en la base de datos
         // generame 5 usuarios y 5 cuentas con datos de ejemplo y asocialos entre si
+
         Cuenta cuenta1 = new Cuenta();
-        cuenta1.setIdMercadoPago("MP12345");
+        cuenta1.setIdMercadoPago("MP00001");
         cuenta1.setSaldo(new BigDecimal("1000.00"));
         cuenta1.setEstado(EstadoCuenta.ACTIVA);
         cuenta1.setFechaAlta(LocalDate.now());
@@ -43,7 +59,7 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta1.setFechaRenovacionCupo(null);
 
         Cuenta cuenta2 = new Cuenta();
-        cuenta2.setIdMercadoPago("MP67890");
+        cuenta2.setIdMercadoPago("MP00002");
         cuenta2.setSaldo(new BigDecimal("2500.00"));
         cuenta2.setEstado(EstadoCuenta.ACTIVA);
         cuenta2.setFechaAlta(LocalDate.now());
@@ -52,7 +68,7 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta2.setFechaRenovacionCupo(LocalDate.now().plusMonths(1));
 
         Cuenta cuenta3 = new Cuenta();
-        cuenta3.setIdMercadoPago("MP54321");
+        cuenta3.setIdMercadoPago("MP00003");
         cuenta3.setSaldo(new BigDecimal("500.00"));
         cuenta3.setEstado(EstadoCuenta.SUSPENDIDA);
         cuenta3.setFechaAlta(LocalDate.now().minusMonths(2));
@@ -61,7 +77,7 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta3.setFechaRenovacionCupo(null);
 
         Cuenta cuenta4 = new Cuenta();
-        cuenta4.setIdMercadoPago("MP98765");
+        cuenta4.setIdMercadoPago("MP00004");
         cuenta4.setSaldo(new BigDecimal("3000.00"));
         cuenta4.setEstado(EstadoCuenta.ACTIVA);
         cuenta4.setFechaAlta(LocalDate.now().minusMonths(1));
@@ -70,7 +86,7 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta4.setFechaRenovacionCupo(LocalDate.now().plusMonths(1));
 
         Cuenta cuenta5 = new Cuenta();
-        cuenta5.setIdMercadoPago("MP11223");
+        cuenta5.setIdMercadoPago("MP00005");
         cuenta5.setSaldo(new BigDecimal("750.00"));
         cuenta5.setEstado(EstadoCuenta.ACTIVA);
         cuenta5.setFechaAlta(LocalDate.now());
@@ -80,42 +96,42 @@ public class CargaUsuarios implements CommandLineRunner {
 
         Usuario usuario1 = new Usuario();
         usuario1.setNombre("Agustin");
-        usuario1.setApellido("Van Waarde");
-        usuario1.setEmail("agusvan@gmail.com");
-        usuario1.setPassword(passwordEncoder.encode("1234"));
+        usuario1.setApellido("Morales");
+        usuario1.setEmail("agus@gmail.com");
+        usuario1.setPassword(passwordEncoder.encode("agus"));
         usuario1.setRol(Rol.ADMIN);
         usuario1.addCuenta(cuenta1);
         usuario1.addCuenta(cuenta2);
 
         Usuario usuario2 = new Usuario();
-        usuario2.setNombre("Matias");
-        usuario2.setApellido("Spacech");
-        usuario2.setEmail("mati@gmail.com");
-        usuario2.setPassword(passwordEncoder.encode("1234"));
+        usuario2.setNombre("Joaquin");
+        usuario2.setApellido("Morales");
+        usuario2.setEmail("joaco@gmail.com");
+        usuario2.setPassword(passwordEncoder.encode("joaco"));
         usuario2.setRol(Rol.USUARIO);
         usuario2.addCuenta(cuenta3);
 
         Usuario usuario3 = new Usuario();
-        usuario3.setNombre("Carlos");
-        usuario3.setApellido("Lopez");
-        usuario3.setEmail("carlos.lopez@example.com");
-        usuario3.setPassword(passwordEncoder.encode("password123"));
+        usuario3.setNombre("Julieta");
+        usuario3.setApellido("Simos");
+        usuario3.setEmail("juli@gmail.com");
+        usuario3.setPassword(passwordEncoder.encode("juli"));
         usuario3.setRol(Rol.USUARIO);
         usuario3.addCuenta(cuenta4);
 
         Usuario usuario4 = new Usuario();
-        usuario4.setNombre("Ana");
-        usuario4.setApellido("Martinez");
-        usuario4.setEmail("ana.martinez@example.com");
-        usuario4.setPassword(passwordEncoder.encode("password123"));
+        usuario4.setNombre("nombre4");
+        usuario4.setApellido("apellido4");
+        usuario4.setEmail("usuario4@gmail.com");
+        usuario4.setPassword(passwordEncoder.encode("1234"));
         usuario4.setRol(Rol.USUARIO);
         usuario4.addCuenta(cuenta5);
 
         Usuario usuario5 = new Usuario();
-        usuario5.setNombre("Luis");
-        usuario5.setApellido("Rodriguez");
-        usuario5.setEmail("luis.rodriguez@example.com");
-        usuario5.setPassword(passwordEncoder.encode("password123"));
+        usuario5.setNombre("nombre5");
+        usuario5.setApellido("apellido5");
+        usuario5.setEmail("usuario5@gmail.com");
+        usuario5.setPassword(passwordEncoder.encode("1234"));
         usuario5.setRol(Rol.USUARIO);
 
         cuenta1.addUsuario(usuario1);
@@ -127,7 +143,7 @@ public class CargaUsuarios implements CommandLineRunner {
         // Agrego más cuentas y usuarios compartidos para tener datos de reportes
 
         Cuenta cuenta6 = new Cuenta();
-        cuenta6.setIdMercadoPago("MP55667");
+        cuenta6.setIdMercadoPago("MP00006");
         cuenta6.setSaldo(new BigDecimal("1200.00"));
         cuenta6.setEstado(EstadoCuenta.ACTIVA);
         cuenta6.setFechaAlta(LocalDate.now().minusDays(10));
@@ -136,7 +152,7 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta6.setFechaRenovacionCupo(LocalDate.now().plusMonths(2));
 
         Cuenta cuenta7 = new Cuenta();
-        cuenta7.setIdMercadoPago("MP77889");
+        cuenta7.setIdMercadoPago("MP00007");
         cuenta7.setSaldo(new BigDecimal("400.00"));
         cuenta7.setEstado(EstadoCuenta.ACTIVA);
         cuenta7.setFechaAlta(LocalDate.now().minusDays(5));
@@ -145,34 +161,34 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta7.setFechaRenovacionCupo(null);
 
         Usuario usuario6 = new Usuario();
-        usuario6.setNombre("Sofia");
-        usuario6.setApellido("Fernandez");
-        usuario6.setEmail("sofia.fernandez@example.com");
-        usuario6.setPassword(passwordEncoder.encode("password123"));
+        usuario6.setNombre("nombre6");
+        usuario6.setApellido("apellido6");
+        usuario6.setEmail("usuario6@gmail.com");
+        usuario6.setPassword(passwordEncoder.encode("1234"));
         usuario6.setRol(Rol.USUARIO);
         usuario6.addCuenta(cuenta2); // comparte cuenta2 con Juan
 
         Usuario usuario7 = new Usuario();
-        usuario7.setNombre("Diego");
-        usuario7.setApellido("Castro");
-        usuario7.setEmail("diego.castro@example.com");
-        usuario7.setPassword(passwordEncoder.encode("password123"));
+        usuario7.setNombre("nombre7");
+        usuario7.setApellido("apellido7");
+        usuario7.setEmail("usuario7@gmail.com");
+        usuario7.setPassword(passwordEncoder.encode("1234"));
         usuario7.setRol(Rol.USUARIO);
         usuario7.addCuenta(cuenta4); // comparte cuenta4 con Carlos
 
         Usuario usuario8 = new Usuario();
-        usuario8.setNombre("Florencia");
-        usuario8.setApellido("Ruiz");
-        usuario8.setEmail("florencia.ruiz@example.com");
+        usuario8.setNombre("nombre8");
+        usuario8.setApellido("apellido8");
+        usuario8.setEmail("usuario8@gmail.com");
         usuario8.setPassword(passwordEncoder.encode("password123"));
         usuario8.setRol(Rol.USUARIO);
         usuario8.addCuenta(cuenta3); // comparte cuenta3 con Maria
         usuario8.addCuenta(cuenta6); // nueva cuenta compartida
 
         Usuario usuario9 = new Usuario();
-        usuario9.setNombre("Martin");
-        usuario9.setApellido("Gonzalez");
-        usuario9.setEmail("martin.gonzalez@example.com");
+        usuario9.setNombre("nombre9");
+        usuario9.setApellido("apellido8");
+        usuario9.setEmail("usuario9@gmail.com");
         usuario9.setPassword(passwordEncoder.encode("password123"));
         usuario9.setRol(Rol.USUARIO);
         usuario9.addCuenta(cuenta1); // comparte cuenta1 con Juan

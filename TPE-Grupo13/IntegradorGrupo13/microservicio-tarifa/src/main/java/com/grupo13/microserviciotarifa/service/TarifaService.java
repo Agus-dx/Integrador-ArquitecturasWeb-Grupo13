@@ -1,3 +1,15 @@
+/**
+ * 🛠️ Capa de Servicio (Service Layer) para la gestión de Tarifas.
+ *
+ * Contiene la lógica de negocio y las operaciones transaccionales para la entidad Tarifa.
+ * Es responsable de:
+ * 1. Implementar las operaciones CRUD básicas y de búsqueda por ID/Fecha/Monto.
+ * 2. Manejar la conversión de la entidad Tarifa a un DTO de respuesta (TarifaDTO).
+ * 3. Implementar la lógica crucial de negocio: 'actualizarTarifaDesdeFecha'. Este método
+ * permite encontrar la tarifa vigente a partir de una fecha dada y aplicar un incremento
+ * porcentual tanto al monto base como al monto extra, asegurando la consistencia
+ * transaccional (@Transactional).
+ */
 package com.grupo13.microserviciotarifa.service;
 
 import com.grupo13.microserviciotarifa.dto.TarifaDTO;

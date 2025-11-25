@@ -1,3 +1,12 @@
+/**
+ * 💰 Cliente Feign para el Microservicio de Tarifas.
+ *
+ * Esta interfaz define el contrato de comunicación con el Microservicio de Tarifas
+ * (microservicio-tarifas). Su función principal es obtener la estructura de
+ * precios y recargos (monto base, monto extra, porcentaje de recargo por pausa,
+ * etc.) necesarios para que el Microservicio de Viajes pueda calcular el costo
+ * final del alquiler durante el proceso de finalización del viaje.
+ */
 package com.grupo13.microservicioviaje.feignClients;
 
 import com.grupo13.microservicioviaje.feignModels.Tarifa;
@@ -9,5 +18,5 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface TarifaFeignClient {
 
     @GetMapping("/{id}")
-    Tarifa findById(@PathVariable Long id);
+    Tarifa findTarifaById(@PathVariable Long id);
 }

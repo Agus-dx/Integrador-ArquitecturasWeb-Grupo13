@@ -1,3 +1,16 @@
+/**
+ * 🛠️ Componente de Carga de Datos Iniciales (Data Seeder) para Paradas.
+ *
+ * Implementa la interfaz CommandLineRunner para poblar la base de datos
+ * del Microservicio de Paradas con datos iniciales (paradas de prueba)
+ * al iniciar la aplicación.
+ * Su propósito es:
+ * 1. Garantizar que existan **Paradas** definidas desde el arranque.
+ * 2. Cargar paradas de ejemplo con **coordenadas geográficas** (latitud/longitud)
+ * para permitir la prueba de la lógica de geocercanía (Fórmula del Haversine).
+ * La verificación 'if (this.repository.count() > 0) return;' evita la recarga
+ * de datos en reinicios sucesivos.
+ */
 package com.grupo13.microservicioparada.utils;
 
 import com.grupo13.microservicioparada.model.Parada;

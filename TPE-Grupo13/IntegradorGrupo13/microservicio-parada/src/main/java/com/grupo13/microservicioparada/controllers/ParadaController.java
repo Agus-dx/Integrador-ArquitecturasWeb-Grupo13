@@ -1,3 +1,16 @@
+/**
+ * 📍 Controlador REST (API Layer) para la gestión de Paradas.
+ *
+ * Es el punto de entrada HTTP para la administración de las estaciones de monopatines.
+ * Expone endpoints cruciales para la operación del sistema, incluyendo:
+ * 1. CRUD básico (GET, POST, DELETE, PATCH).
+ * 2. Funcionalidad de Geocercanía (GET /cercanas): Permite al Microservicio de Viajes
+ * o a una aplicación cliente encontrar paradas dentro de un radio geográfico
+ * específico.
+ * 3. Consulta de Monopatines (GET /monopatines/{id}, GET /monopatines-libres/{id}):
+ * Esta funcionalidad es clave, ya que requiere la **comunicación con el Microservicio
+ * de Monopatines** para obtener el inventario de vehículos en esa parada.
+ */
 package com.grupo13.microservicioparada.controllers;
 
 import com.grupo13.microservicioparada.dtos.ParadaDTO;
@@ -133,6 +146,35 @@ public class ParadaController {
                 return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Error de validación o proceso
+        }
+    }
+
+    @GetMapping("/monopatines-cercanos") // <-- Nuevo endpoint para la consigna G
+    public ResponseEntity<?> findMonopatinesCercanos(
+            @RequestParam(name = "latitud") Double latitud,
+            @RequestParam(name = "longitud") Double longitud) {
+
+        try {
+            // 1. Obtener las paradas cercanas (usando la lógica de findParadasCercanas)
+            List<ParadaDTO> paradasCercanas = service.findParadasCercanas(latitud, longitud);
+
+            if (paradasCercanas.isEmpty()) {
+                return new ResponseEntity<>("No hay paradas cercanas que contengan monopatines libres.", HttpStatus.NO_CONTENT);
+            }
+
+            // 2. Por cada parada cercana, buscar los monopatines libres (usando la lógica de findMonopatinesLibresByParada)
+            List<Map<String, Object>> resultados = service.buscarMonopatinesLibresEnParadasCercanas(paradasCercanas);
+
+            if (resultados.isEmpty()) {
+                return new ResponseEntity<>("Paradas cercanas encontradas, pero sin monopatines libres.", HttpStatus.NO_CONTENT);
+            }
+
+            return ResponseEntity.ok(resultados);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("Error al buscar monopatines cercanos: " + e.getMessage(),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

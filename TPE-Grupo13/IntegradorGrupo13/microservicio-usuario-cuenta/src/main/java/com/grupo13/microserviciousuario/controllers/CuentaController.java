@@ -1,3 +1,14 @@
+/**
+ * 💳 Controlador REST (API Layer) para la gestión de Cuentas.
+ *
+ * Es el punto de entrada HTTP para las operaciones CRUD sobre la entidad Cuenta.
+ * Expone endpoints para:
+ * 1. Consultar y crear cuentas (GET y POST).
+ * 2. Cambiar el estado de una cuenta (PATCH), utilizado para habilitar/deshabilitar usuarios.
+ * 3. Restar saldo (PUT), un endpoint crucial utilizado por otros microservicios (como el de Viajes)
+ * para debitar el costo de un servicio.
+ * Se encarga de mapear las peticiones HTTP y devolver los códigos de estado apropiados (200, 201, 404).
+ */
 package com.grupo13.microserviciousuario.controllers;
 
 import com.grupo13.microserviciousuario.entity.Cuenta;

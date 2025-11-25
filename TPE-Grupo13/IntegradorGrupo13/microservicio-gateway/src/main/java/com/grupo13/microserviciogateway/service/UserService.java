@@ -1,3 +1,14 @@
+/**
+ * 🧑‍💻 Servicio de Usuarios (UserService) en el Gateway.
+ *
+ * Lógica de negocio para el registro de nuevos usuarios.
+ * * Flujo:
+ * 1. Hashing: Utiliza el `PasswordEncoder` (BCrypt) para hashear la contraseña
+ * clara recibida en la solicitud.
+ * 2. Delegación de Persistencia: Llama a `usuarioFeign.createUser` para que el
+ * Microservicio de Usuarios/Cuentas se encargue de guardar el nuevo registro
+ * en la base de datos.
+ */
 package com.grupo13.microserviciogateway.service;
 
 import com.grupo13.microserviciogateway.feignClients.UsuarioFeign;

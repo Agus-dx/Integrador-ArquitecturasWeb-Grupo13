@@ -1,3 +1,17 @@
+# 🐳 Configuración de Orquestación Docker (docker-compose.yml).
+# Este archivo define y configura los **contenedores de las bases de datos** * necesarios para la persistencia de los microservicios, así como una red
+# común para que puedan comunicarse entre sí y con las aplicaciones Spring Boot.
+#
+# ========================================================================
+# ARQUITECTURA DE PERSISTENCIA POLÍGLOTA:
+# - MySQL: Probablemente utilizado por la mayoría de los microservicios relacionales
+# (Usuarios, Viajes, Facturación, IA, etc.).
+# - MongoDB: Típicamente utilizado para datos semi-estructurados o con alta
+# necesidad de flexibilidad, como la gestión de **Monopatines/Activos/Ubicaciones**.
+# - PostgreSQL: Utilizado como alternativa relacional, o para servicios específicos
+# (ej., Paradas o Tarifas) que requieran sus funcionalidades avanzadas.
+# ========================================================================
+#
 version: '3.8'
 
 services:
@@ -10,7 +24,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
       MYSQL_DATABASE: db_mysql
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql # Persistencia de datos en el host
     restart: always
     networks:
       - backend

@@ -1,3 +1,17 @@
+/**
+ * 🛠️ Componente de Carga de Datos Iniciales (Data Seeder) para Facturas.
+ *
+ * Implementa la interfaz CommandLineRunner para poblar la base de datos
+ * (presumiblemente MySQL) con registros de Factura de prueba al iniciar la aplicación.
+ * Su propósito es:
+ * 1. Inicializar el Historial Financiero: Asegura que el microservicio tenga
+ * datos históricos de facturación disponibles desde el arranque.
+ * 2. Prueba de Reportes: Estos datos son esenciales para probar los endpoints
+ * de reportes agregados, como 'GET /total-facturado' y 'GET /entre-fechas'.
+ * 3. Referencias Cruzadas: Cada factura incluye referencias (usuarioId, tarifaId)
+ * que permiten probar la trazabilidad con otros microservicios, aunque aquí
+ * falta el viajeId.
+ */
 package com.grupo13.microserviciofacturacion.utils;
 
 import com.grupo13.microserviciofacturacion.entity.Factura;
@@ -14,6 +28,7 @@ public class CargarFacturas implements CommandLineRunner{
 
     public void CargarDatosIniciales(FacturaRepository facturaRepository) {
         // Lógica para cargar facturas iniciales en la base de datos
+        if(this.facturaRepository.count() > 0) return;
         Factura factura1 = new Factura();
         factura1.setNumeroFactura("FACT-2025-001");
         factura1.setImporte(150.0);

@@ -1,3 +1,14 @@
+/**
+ * 📞 Cliente Feign para el Microservicio de Usuarios.
+ *
+ * Esta interfaz declara los contratos de comunicación (endpoints) con el
+ * Microservicio de Usuarios (microservicio-usuarios), permitiendo al
+ * Microservicio de Viajes realizar llamadas HTTP sencillas y declarativas.
+ * Es vital para:
+ * 1. Validar la existencia de un usuario.
+ * 2. Verificar la asociación de una cuenta con un usuario (lógica de negocio).
+ * 3. Obtener listas de cuentas y usuarios filtrados por rol para reportes complejos.
+ */
 package com.grupo13.microservicioviaje.feignClients;
 
 import com.grupo13.microservicioviaje.feignModels.Cuenta;
@@ -22,4 +33,8 @@ public interface UsuarioFeignClient {
 
     @GetMapping("tipo/{rol}")
     Set<Long> getUsuarioByRol(@PathVariable String rol);
+
+    @GetMapping("/cuentas/{idCuenta}/usuarios")
+    Set<Usuario> getUsuariosByCuenta(@PathVariable("idCuenta") Long idCuenta);
+
 }

@@ -1,5 +1,18 @@
+/**
+ * 🔐 Proveedor de Tokens JWT (TokenProvider).
+ *
+ * Implementa la lógica para crear, parsear y validar tokens JWT.
+ * * Funciones Clave:
+ * 1. Creación: `createToken` utiliza la clave secreta (`SECRET`) para firmar
+ * el token, incluyendo el nombre de usuario (`subject`) y las autoridades (`auth`).
+ * 2. Validación: `validateToken` verifica la firma y captura excepciones comunes
+ * de JWT (expiración, formato inválido, etc.).
+ * 3. Obtención de Autenticación: `getAuthentication` parsea el token para
+ * reconstruir el objeto `Authentication` de Spring Security, extrayendo las
+ * autoridades para que puedan ser usadas por `SecurityConfig`.
+ * 4. Validez: El token es válido por 1 día (`1000 * 86400` ms).
+ */
 package com.grupo13.microserviciogateway.security.jwt;
-
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;

@@ -1,3 +1,17 @@
+/**
+ * 🛡️ Filtro JWT (JwtFilter).
+ *
+ * Filtro de seguridad que intercepta cada solicitud para validar la presencia y
+ * validez del token JWT en el encabezado `Authorization`.
+ * * Flujo:
+ * 1. `resolveToken`: Extrae el JWT del encabezado "Bearer ...".
+ * 2. `doFilterInternal`: Llama a `tokenProvider.validateToken`.
+ * 3. Si es válido: Usa `tokenProvider.getAuthentication` para obtener la
+ * información del usuario y la establece en el `SecurityContextHolder` para
+ * que Spring Security pueda realizar la autorización.
+ * 4. Manejo de Expiración: Si el token ha expirado, devuelve el código de
+ * estado 498 (Token Expired, aunque 401 Unauthorized es más común).
+ */
 package com.grupo13.microserviciogateway.security.jwt;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

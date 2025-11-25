@@ -1,3 +1,10 @@
+/**
+ * 📥 DTO de Solicitud (LoginDTO).
+ *
+ * Objeto utilizado para mapear el cuerpo de la solicitud POST /api/token.
+ * Incluye validaciones básicas (`@NotNull`, `@NotEmpty`) para asegurar que
+ * las credenciales sean proporcionadas.
+ */
 package com.grupo13.microserviciogateway.service.dto.login;
 
 import jakarta.validation.constraints.NotEmpty;

@@ -1,3 +1,12 @@
+/**
+ * 📍 Cliente Feign para el Microservicio de Paradas.
+ *
+ * Esta interfaz define el contrato de comunicación con el Microservicio de Paradas
+ * (microservicio-parada). Su función principal es obtener los detalles de ubicación
+ * de las paradas (coordenadas geográficas y descripción) para que el Microservicio
+ * de Viajes pueda validar la existencia de las paradas de origen y destino,
+ * y confirmar la ubicación final del monopatín al terminar el alquiler.
+ */
 package com.grupo13.microservicioviaje.feignClients;
 
 import com.grupo13.microservicioviaje.feignModels.Parada;

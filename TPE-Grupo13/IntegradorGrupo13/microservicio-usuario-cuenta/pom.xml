@@ -6,25 +6,13 @@
         <groupId>com.grupo13</groupId>
         <artifactId>IntegradorGrupo13</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-    <groupId>com.grupo13</groupId>
+
     <artifactId>microservicio-usuario-cuenta</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>usuario</name>
-    <description>usuario</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+    <name>Microservicio Usuario y Cuenta</name>
+    <description>Microservicio Usuario y Cuenta</description>
+
     <properties>
         <java.version>21</java.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>

@@ -1,3 +1,14 @@
+/**
+ * 📝 Controlador de Registro (UserController).
+ *
+ * Expone el endpoint POST /api/registrar, que permite a los nuevos usuarios
+ * registrarse en la plataforma.
+ * * Flujo:
+ * 1. Recibe `UserDTO` con los datos del nuevo usuario.
+ * 2. Delega la lógica de negocio al `UserService` (que gestiona el hashing
+ * y la llamada al Microservicio de Usuarios).
+ * 3. Devuelve el ID del nuevo usuario con el código HTTP 201 (Created).
+ */
 package com.grupo13.microserviciogateway.Controller;
 
 import com.grupo13.microserviciogateway.service.UserService;

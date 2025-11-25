@@ -1,3 +1,10 @@
+/**
+ * 🏷️ Constantes de Roles (AuthotityConstant).
+ *
+ * Clase simple que centraliza las definiciones de los roles (Autoridades)
+ * que se utilizan para la autorización en `SecurityConfig`. Esto evita errores
+ * tipográficos en la lógica de seguridad.
+ */
 package com.grupo13.microserviciogateway.security;
 
 public final class AuthotityConstant {

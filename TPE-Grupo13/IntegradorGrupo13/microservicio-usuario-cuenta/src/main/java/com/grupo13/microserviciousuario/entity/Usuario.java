@@ -1,3 +1,17 @@
+/**
+ * 🧑‍💻 Entidad JPA (Modelo de Dominio) para la tabla 'Usuario'.
+ *
+ * Define la estructura de los usuarios del sistema. Es la entidad central de este
+ * microservicio. Contiene información personal (nombre, apellido, email) y de
+ * seguridad (password, rol).
+ * * Aspectos clave:
+ * 1. Mapeo @ManyToMany con Cuenta, definiendo el lado "inverso" de la relación,
+ * lo que permite que un usuario tenga múltiples cuentas.
+ * 2. Campos de geolocalización (latitud, longitud), potencialmente usados para
+ * servicios de ubicación o reportes.
+ * 3. Métodos utilitarios (addCuenta, removeCuenta) para manejar la sincronización
+ * de la relación bidireccional Many-to-Many.
+ */
 package com.grupo13.microserviciousuario.entity;
 
 import jakarta.persistence.*;

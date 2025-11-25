@@ -1,3 +1,13 @@
+/**
+ * 🛵 Cliente Feign para el Microservicio de Monopatines.
+ *
+ * Esta interfaz define el contrato de comunicación con el Microservicio de Monopatines
+ * (microservicio-monopatin). Es esencial para la lógica de inicio y finalización de un viaje,
+ * permitiendo al Microservicio de Viajes:
+ * 1. Consultar el estado y la ubicación de un Monopatín específico (findById).
+ * 2. Cambiar el estado del Monopatín (e.g., de 'LIBRE' a 'ACTIVO', o de 'ACTIVO' a 'LIBRE')
+ * durante las transacciones de inicio y fin de viaje (updateEstado).
+ */
 package com.grupo13.microservicioviaje.feignClients;
 
 import com.grupo13.microservicioviaje.feignModels.Monopatin;

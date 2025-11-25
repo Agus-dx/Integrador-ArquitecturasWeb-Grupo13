@@ -1,3 +1,11 @@
+/**
+ * 💡 Servicio de Negocio (Service Layer) para la entidad Viaje.
+ *
+ * Contiene la lógica transaccional para la gestión de viajes (iniciar, finalizar, CRUD).
+ * Es responsable de coordinar las interacciones con otros microservicios
+ * (Monopatín, Cuenta, Usuario, Tarifa, Parada y Facturación) a través de Feign Clients
+ * para garantizar la integridad y el flujo de la operación de alquiler.
+ */
 package com.grupo13.microservicioviaje.services;
 
 import com.grupo13.microservicioviaje.dtos.ReporteViajePeriodoDTO;
@@ -14,10 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors; // Importar Collectors
 
 @Service
@@ -72,7 +77,7 @@ public class ViajeService {
             throw new RuntimeException("Parada de Destino no encontrada con ID: " + viaje.getParadaDestino());
 
         // 5. Obtengo la tarifa
-        Tarifa tarifa = tarifaFeignClient.findById(viaje.getIdTarifa());
+        Tarifa tarifa = tarifaFeignClient.findTarifaById(viaje.getIdTarifa());
         if(tarifa == null)
             throw new RuntimeException("Tarifa no encontrada con ID: " + viaje.getIdTarifa());
 
@@ -111,7 +116,7 @@ public class ViajeService {
 
         // Precalculo el monto a restar y veo si la cuenta los tiene
         Cuenta cuenta = cuentaFeignClient.findById(viaje.getIdCuenta());
-        Tarifa tarifa = tarifaFeignClient.findById(viaje.getIdTarifa());
+        Tarifa tarifa = tarifaFeignClient.findTarifaById(viaje.getIdTarifa());
         BigDecimal montoArestar = precalcularCostoViaje(tarifa, viaje);
         if(montoArestar.compareTo(cuenta.getSaldo()) > 0) {
             // SaldoCuentaInsuficienteException -> IllegalArgumentException
@@ -213,47 +218,72 @@ public class ViajeService {
 
     // c
     @Transactional(readOnly = true)
-    public List<ReporteViajePeriodoDTO> getReporteViajeAnio(Integer anio, Integer xViajes) {
+    public List<ReporteViajePeriodoDTO> getReporteViajeAnio(Integer anio, Long xViajes) {
         return repository.getReporteViajeAnio(anio, xViajes);
     }
 
     // e
     @Transactional(readOnly = true)
-    public List<?> getReporteViajesPorUsuariosPeriodo(Integer anioDesde, Integer anioHasta) {
-        // Se corrige el tipo de retorno para coincidir con la llamada del Controller
+    public List<ReporteViajeUsuariosDTO> getReporteViajesPorUsuariosPeriodo(Integer anioDesde, Integer anioHasta, String rol) {
+        if (rol != null) {
+            Set<Long> usuarios = usuarioFeignClient.getUsuarioByRol(rol);
+            // Si no tengo nada quiere decir que el rol no existe
+            if(usuarios.isEmpty())
+                throw new IllegalArgumentException("Tipo de rol no existe");
+
+            return repository.getReportesViajesPorUsuariosPeriodoPorTipoUsuario(anioDesde, anioHasta, usuarios);
+        }
+        // Si no me pasan un rol traigo todos los reportes de todos los usuarios
         return repository.getReportesViajesPorUsuariosPeriodo(anioDesde, anioHasta);
     }
 
-    // h
-    @Transactional(readOnly = true)
-    public Map<String, Object> getReportesUsuarioYasociadosPerido(Long idUsuario, Integer anioDesde, Integer anioHasta) {
+    public Map<String, Object> getReportesUsuarioYasociadosPerido( // Renombrado para mayor claridad
+                                              Long idUsuario,
+                                              Integer anioDesde,
+                                              Integer anioHasta,
+                                              Boolean incluirAsociados
+    ) {
+        // 1. **Paso Inicial: Validación del Usuario Principal**
         Usuario usuario = usuarioFeignClient.findById(idUsuario);
-        if(usuario == null)
+        if (usuario == null)
             throw new RuntimeException("Usuario no encontrado con ID: " + idUsuario);
 
-        // Traigo todas las cuentas del usuario
-        Set<Cuenta> cuentasUsuario = usuarioFeignClient.getCuentasByUsuario(idUsuario);
+        // 2. **Determinar la lista de IDs a buscar**
+        Set<Long> usuarioIdsAConsultar = new HashSet<>();
+        usuarioIdsAConsultar.add(idUsuario); // Siempre se incluye el usuario principal
 
-        // Extraigo los IDs de las cuentas
-        Set<Long> cuentaIds = cuentasUsuario.stream()
-                .map(Cuenta::getId)
-                .collect(Collectors.toSet());
+        if (incluirAsociados) {
+            // Traer todas las cuentas asociadas al usuario principal
+            Set<Cuenta> cuentasUsuario = usuarioFeignClient.getCuentasByUsuario(idUsuario);
 
-        // Lista de reportes del usuario y ademas todos los que usen las cuentas
-        List<?> reportes = repository.
-                getReportesViajesPorUsuarioYcuentasAsociadasPeriodo(cuentaIds, anioDesde, anioHasta);
+            // --- INICIO DE LA CORRECCIÓN CRÍTICA ---
+            for (Cuenta cuenta : cuentasUsuario) {
 
-        // Remuevo el reporte main buscado del usuario por parametro
-        Object reporteMain = reportes.stream()
-                .filter(r -> r.getClass().getSimpleName().equals("ReporteViajeUsuariosDTO") &&
-                        ((ReporteViajeUsuariosDTO) r).getIdUsuario().equals(idUsuario)).findFirst().orElse(null);
+                // LLAMADA FEIGN ANIDADA (Asumiendo que has añadido getUsuariosByCuenta al Feign Client)
+                Set<Usuario> usuariosEnCuenta = usuarioFeignClient.getUsuariosByCuenta(cuenta.getId());
 
-        if(reporteMain != null)
-            reportes.remove(reporteMain);
+                // Extraer los IDs y añadirlos a la lista de consulta
+                usuariosEnCuenta.stream()
+                        .map(Usuario::getId)
+                        .forEach(usuarioIdsAConsultar::add);
+            }
+            // --- FIN DE LA CORRECCIÓN CRÍTICA (Se eliminó la llamada a getUsuariosIdsByCuentas) ---
+        }
 
+        // 3. **Consulta de Uso Total (Duración)**
+        //    Esto asume que el método del Repository y la @Query están correctos.
+        Long duracionTotal = repository.getDuracionTotalUsoByUsuarios(
+                usuarioIdsAConsultar,
+                anioDesde,
+                anioHasta
+        );
+
+        // 4. **Retorno Final**
         Map<String, Object> retorno = new HashMap<>();
-        retorno.put("reporte usuario buscado", reporteMain);
-        retorno.put("usuarios asociado cuentas", reportes);
+        retorno.put("idUsuarioPrincipal", idUsuario);
+        retorno.put("periodoAnios", anioDesde + " - " + anioHasta);
+        retorno.put("incluyeAsociados", incluirAsociados);
+        retorno.put("tiempoTotalUsoMinutos", duracionTotal != null ? duracionTotal : 0L);
 
         return retorno;
     }

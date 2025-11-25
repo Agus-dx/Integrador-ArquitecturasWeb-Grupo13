@@ -1,3 +1,15 @@
+/**
+ * 🔑 Controlador JWT (JwtController).
+ *
+ * Expone el endpoint POST /api/token, responsable de recibir las credenciales
+ * (username/password) y generar un JWT si la autenticación es exitosa.
+ * * Flujo:
+ * 1. Recibe `LoginDTO`.
+ * 2. Autentica las credenciales usando `AuthenticationManagerBuilder` (que a su
+ * vez usa `DomainUserDetailsService` para ir al Microservicio de Usuarios).
+ * 3. Si es exitoso, llama a `tokenProvider.createToken(authentication)`.
+ * 4. Devuelve el JWT en el cuerpo de la respuesta y en el encabezado `Authorization`.
+ */
 package com.grupo13.microserviciogateway.Controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
