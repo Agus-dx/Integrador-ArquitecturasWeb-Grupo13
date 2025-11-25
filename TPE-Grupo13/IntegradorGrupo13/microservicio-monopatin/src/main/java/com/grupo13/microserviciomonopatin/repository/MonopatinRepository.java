@@ -59,23 +59,4 @@ public interface MonopatinRepository extends MongoRepository<Monopatin, String> 
     @Query("{ 'kmRecorridos' : { $gte: ?0 } }")
     List<Monopatin> getReportesMantenimiento(Integer kmRecorridos);
 
-    // Función Haversine para calcular la distancia en KM
-    // Nota: Esta fórmula es compleja en JPQL/HQL puro. Si la BD lo soporta (MySQL con funciones trigonométricas),
-    // se puede usar una @Query Nativa. Aquí se usa una versión compatible con muchas BDs.
-    /*
-     * Consigna G: Búsqueda de monopatines libres cercanos a una ubicación (Haversine).
-     * Nota: Se utiliza la fórmula de Parada, pero se añade el filtro de estado 'LIBRE'.
-     */
-    @Query(value =
-            "SELECT * FROM monopatin m WHERE m.estado = 'LIBRE' AND " + // Filtro de estado
-                    "( 6371 * acos(" +
-                    " LEAST(1.0, GREATEST(-1.0, cos(radians(:latitudUsuario)) *" +
-                    " cos(radians(m.latitud)) * cos(radians(m.longitud) - radians(:longitudUsuario)) + " +
-                    " sin(radians(:latitudUsuario)) * sin(radians(m.latitud)))))) < :radio " +
-                    "ORDER BY ( 6371 * acos( LEAST(1.0, GREATEST(-1.0, cos(radians(:latitudUsuario)) *" +
-                    " cos(radians(m.latitud)) * cos(radians(m.longitud) - radians(:longitudUsuario)) + " +
-                    " sin(radians(:latitudUsuario)) * sin(radians(m.latitud))))))",
-            nativeQuery = true)
-    List<Monopatin> findMonopatinesCercanos(Double latitudUsuario, Double longitudUsuario,
-                                            Double radio);
 }

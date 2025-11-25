@@ -43,6 +43,7 @@ spring:
       server:
         webmvc:
           routes:
+            # NOTA: Usamos los puertos definidos en las URI para los enlaces de Swagger.
             - id: facturacion
               uri: http://localhost:8083
               predicates:
@@ -79,11 +80,52 @@ spring:
                 - Path=/api/usuarios/**
 
             - id: ia
-              uri: http://localhost:8089
+              uri: http://localhost:8089 # Puerto de IA según tu ruteo
               predicates:
                 - Path=/api/ia/**
 
 
+  # -----------------------------------------------------------------
+  # CONFIGURACIÓN DE SWAGGER/OPENAPI (SPRINGDOC)
+  # -----------------------------------------------------------------
+  springdoc:
+    # Metadatos del API Gateway
+    info:
+      title: 🌐 API GATEWAY | Acceso a Servicios Monopatín
+      description: Punto de entrada unificado y centralizado para la documentación de todos los microservicios.
+      version: v1.0.0
+
+    # Configuración de la Interfaz y Rutas
+    swagger-ui:
+      path: /swagger-ui.html # URL para la interfaz (http://localhost:8080/swagger-ui.html)
+
+      # Enlaces a la Documentación de los Microservicios (Centralización)
+      urls:
+        # MS-USUARIOS/CUENTAS (Puerto 8082)
+        - url: http://localhost:8082/v3/api-docs
+          name: MS-USUARIOS
+        # MS-FACTURACION (Puerto 8083)
+        - url: http://localhost:8083/v3/api-docs
+          name: MS-FACTURACION
+        # MS-MONOPATINES (Puerto 8084)
+        - url: http://localhost:8084/v3/api-docs
+          name: MS-MONOPATINES
+        # MS-PARADAS (Puerto 8085)
+        - url: http://localhost:8085/v3/api-docs
+          name: MS-PARADAS
+        # MS-TARIFA (Puerto 8086)
+        - url: http://localhost:8086/v3/api-docs
+          name: MS-TARIFA
+        # MS-VIAJES (Puerto 8087)
+        - url: http://localhost:8087/v3/api-docs
+          name: MS-VIAJES
+        # MS-IA (Puerto 8089)
+        - url: http://localhost:8089/v3/api-docs
+          name: MS-IA
+
+    # Ruta del JSON base del propio Gateway
+    api-docs:
+      path: /v3/api-docs
 
 logging:
   level:
