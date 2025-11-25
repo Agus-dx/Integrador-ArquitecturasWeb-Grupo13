@@ -56,44 +56,6 @@ public class ViajeController {
     }
 
     /**
-     * Genera reportes de viajes basados en diferentes combinaciones de parámetros.
-     * Manejo general de errores internos (500).
-     */
-    @GetMapping("/reportes")
-    public ResponseEntity<?> getReporteViajes(
-            @RequestParam(required = false, name = "anio") Integer anio,
-            @RequestParam(required = false, name = "cantidad") Long cantidad,
-            @RequestParam(required = false, name = "anioDesde") Integer anioDesde,
-            @RequestParam(required = false, name = "anioHasta") Integer anioHasta,
-            @RequestParam(required = false, name = "rol") String rol) {
-
-        try {
-            // c - Reporte por año específico
-            if (anio != null && cantidad != null) {
-                List<ReporteViajePeriodoDTO> reportes = service.getReporteViajeAnio(anio, cantidad);
-                return reportes.isEmpty()
-                        ? ResponseEntity.noContent().build()
-                        : ResponseEntity.ok(reportes);
-            }
-
-            // Reporte general por período
-            if (anioDesde != null && anioHasta != null && rol != null) {
-                List<ReporteViajeUsuariosDTO> reportes = service.getReporteViajesPorUsuariosPeriodo(anioDesde, anioHasta, rol);
-                return reportes.isEmpty()
-                        ? ResponseEntity.noContent().build()
-                        : ResponseEntity.ok(reportes);
-            }
-            return ResponseEntity.badRequest()
-                    .body("Parámetros inválidos.");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al generar reporte: " + e.getMessage());
-        }
-    }
-
-    /**
      * Reporte C: Consulta monopatines con más de X viajes en un año específico.
      * Requiere: anio y cantidad (X viajes).
      */
@@ -111,7 +73,7 @@ public class ViajeController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error al generar reporte de monopatines populares: " + e.getMessage());
+                    .body("Error al generar reporte de monopatines: " + e.getMessage());
         }
     }
 
@@ -149,13 +111,11 @@ public class ViajeController {
             Boolean incluirAsociados) {
 
         try {
-            // Reporte de usuario en período (años) y cuentas asociadas
-            // El servicio debe buscar viajes cuya fecha de finalización esté en el rango [anioDesde, anioHasta].
             Map<String, Object> reportes = service.getReportesUsuarioYasociadosPerido(
                     idUsuario,
                     anioDesde,
                     anioHasta,
-                    incluirAsociados // Pasar el flag al servicio
+                    incluirAsociados
             );
 
             return reportes.isEmpty()

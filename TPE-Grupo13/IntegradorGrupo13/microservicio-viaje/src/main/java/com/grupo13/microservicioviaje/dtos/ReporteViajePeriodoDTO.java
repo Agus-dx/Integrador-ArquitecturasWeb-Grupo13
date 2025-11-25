@@ -19,5 +19,13 @@ import lombok.Setter;
 public class ReporteViajePeriodoDTO {
     private String idMonopatin;
     private Long cantidadViajes;
-    private Integer anio;
+    private Object anio;
+
+    // Constructor con la firma (String, Long, Integer) esperada por la consulta.
+    public ReporteViajePeriodoDTO(String idMonopatin, Long cantidadViajes, Integer anioReporte) {
+        this.idMonopatin = idMonopatin;
+        this.cantidadViajes = cantidadViajes;
+        this.anio = anioReporte;
+    }
 }
+

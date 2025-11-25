@@ -16,6 +16,7 @@ import com.grupo13.microservicioviaje.model.Viaje;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
@@ -23,20 +24,15 @@ import java.util.Set;
 @Repository("ViajeRepository")
 public interface ViajeRepository extends JpaRepository<Viaje, Long> {
 
-    @Query("""
-    SELECT new com.grupo13.microservicioviaje.dtos.ReporteViajePeriodoDTO(
-        v.idMonopatin,      /* 1. String */
-        CAST(COUNT(v) AS long), /* 2. Long (Forzado para coincidir con DTO) */
-        :anioBuscado        /* 3. Integer */
-    )
-    FROM Viaje v
-    WHERE FUNCTION('YEAR', v.fechaFin) = :anioBuscado 
-               AND v.activo = false
-    GROUP BY v.idMonopatin
-    HAVING COUNT(v) >= :xViajes
-    ORDER BY COUNT(v) DESC
-   """)
-    List<ReporteViajePeriodoDTO> getReporteViajeAnio(Integer anioBuscado,Long xViajes);
+    @Query("SELECT new com.grupo13.microservicioviaje.dtos.ReporteViajePeriodoDTO(v.idMonopatin, COUNT(v), COALESCE(:anio, 0)) " +
+            "FROM Viaje v " +
+            "WHERE FUNCTION('YEAR', v.fechaInicio) = :anio " +
+            "GROUP BY v.idMonopatin " +
+            "HAVING COUNT(v) >= :cantidad")
+    List<ReporteViajePeriodoDTO> getReporteViajeAnio(
+            @Param("anio") Integer anio,
+            @Param("cantidad") Long cantidad
+    );
 
 
     @Query("""

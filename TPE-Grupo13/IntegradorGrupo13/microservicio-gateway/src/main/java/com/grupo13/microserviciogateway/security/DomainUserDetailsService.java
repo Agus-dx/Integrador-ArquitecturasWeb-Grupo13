@@ -43,10 +43,10 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username ) {
         log.debug("Authenticating {}", username);
 
-        UserResponse userFeign = usuarioFeign.findUserByUsername(username);// Traigo usuario desde el servicio de usuarios
-        User userConRoles = new User(userFeign);// Creo usuario con roles,ya que en un futuro puede tener varios  roles
+        UserResponse userFeign = usuarioFeign.findUserByUsername(username);
+        User userConRoles = new User(userFeign);
 
-        return this.createSpringSecurityUser( userConRoles );// Devuelvo el userDetails con los authorities
+        return this.createSpringSecurityUser( userConRoles );
     }
 
     private UserDetails createSpringSecurityUser( User user ) {

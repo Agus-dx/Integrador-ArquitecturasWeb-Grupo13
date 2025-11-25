@@ -139,7 +139,6 @@ public class ParadaService {
 
         for (ParadaDTO parada : paradasCercanas) {
             // Reutilizar la lógica que está en findParadaConMonopatinesLibres
-            // Se asume que este método llama al Microservicio de Monopatines (FeignClient)
             Map<String, Object> resultadoParada = findParadaConMonopatinesLibres(parada.getId());
 
             // El resultado debe ser agregado solo si tiene monopatines

@@ -46,8 +46,6 @@ public class CargaUsuarios implements CommandLineRunner {
     }
 
     public static void CargarDatosIniciales(UsuarioRepository usuarioRepositoryy, CuentaRepository cuentaRepositoryy, PasswordEncoder passwordEncoder) {
-        // Lógica para cargar datos iniciales en la base de datos
-        // generame 5 usuarios y 5 cuentas con datos de ejemplo y asocialos entre si
 
         Cuenta cuenta1 = new Cuenta();
         cuenta1.setIdMercadoPago("MP00001");
@@ -140,8 +138,6 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta4.addUsuario(usuario3);
         cuenta5.addUsuario(usuario4);
 
-        // Agrego más cuentas y usuarios compartidos para tener datos de reportes
-
         Cuenta cuenta6 = new Cuenta();
         cuenta6.setIdMercadoPago("MP00006");
         cuenta6.setSaldo(new BigDecimal("1200.00"));
@@ -166,7 +162,7 @@ public class CargaUsuarios implements CommandLineRunner {
         usuario6.setEmail("usuario6@gmail.com");
         usuario6.setPassword(passwordEncoder.encode("1234"));
         usuario6.setRol(Rol.USUARIO);
-        usuario6.addCuenta(cuenta2); // comparte cuenta2 con Juan
+        usuario6.addCuenta(cuenta2);
 
         Usuario usuario7 = new Usuario();
         usuario7.setNombre("nombre7");
@@ -174,7 +170,7 @@ public class CargaUsuarios implements CommandLineRunner {
         usuario7.setEmail("usuario7@gmail.com");
         usuario7.setPassword(passwordEncoder.encode("1234"));
         usuario7.setRol(Rol.USUARIO);
-        usuario7.addCuenta(cuenta4); // comparte cuenta4 con Carlos
+        usuario7.addCuenta(cuenta4);
 
         Usuario usuario8 = new Usuario();
         usuario8.setNombre("nombre8");
@@ -182,8 +178,8 @@ public class CargaUsuarios implements CommandLineRunner {
         usuario8.setEmail("usuario8@gmail.com");
         usuario8.setPassword(passwordEncoder.encode("password123"));
         usuario8.setRol(Rol.USUARIO);
-        usuario8.addCuenta(cuenta3); // comparte cuenta3 con Maria
-        usuario8.addCuenta(cuenta6); // nueva cuenta compartida
+        usuario8.addCuenta(cuenta3);
+        usuario8.addCuenta(cuenta6);
 
         Usuario usuario9 = new Usuario();
         usuario9.setNombre("nombre9");
@@ -191,10 +187,9 @@ public class CargaUsuarios implements CommandLineRunner {
         usuario9.setEmail("usuario9@gmail.com");
         usuario9.setPassword(passwordEncoder.encode("password123"));
         usuario9.setRol(Rol.USUARIO);
-        usuario9.addCuenta(cuenta1); // comparte cuenta1 con Juan
+        usuario9.addCuenta(cuenta1);
         usuario9.addCuenta(cuenta7);
 
-        // Asociaciones bidireccionales
         cuenta2.addUsuario(usuario6);
         cuenta4.addUsuario(usuario7);
         cuenta3.addUsuario(usuario8);
@@ -202,11 +197,11 @@ public class CargaUsuarios implements CommandLineRunner {
         cuenta1.addUsuario(usuario9);
         cuenta7.addUsuario(usuario9);
 
-        // Compartir cuenta5 también con Maria (usuario2)
+
         cuenta5.addUsuario(usuario2);
         usuario2.addCuenta(cuenta5);
 
-        // guardar en la base de datos (guardar usuarios y cuentas nuevas)
+
         usuarioRepositoryy.save(usuario1);
         usuarioRepositoryy.save(usuario2);
         usuarioRepositoryy.save(usuario3);

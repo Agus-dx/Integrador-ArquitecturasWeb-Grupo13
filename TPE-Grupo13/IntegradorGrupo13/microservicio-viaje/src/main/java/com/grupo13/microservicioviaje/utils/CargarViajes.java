@@ -30,7 +30,7 @@ public class CargarViajes implements CommandLineRunner {
     }
 
     public void cargarDatosIniciales() {
-        // Viaje 1: Usuario 1, Cuenta 1, completado
+
         Viaje v1 = new Viaje();
         v1.setParadaOrigen(1L);
         v1.setParadaDestino(2L);
@@ -45,7 +45,7 @@ public class CargarViajes implements CommandLineRunner {
         v1.setActivo(true);
         viajeRepository.save(v1);
 
-        // Viaje 2: Usuario 1, Cuenta 2 (premium), completado
+
         Viaje v2 = new Viaje();
         v2.setParadaOrigen(2L);
         v2.setParadaDestino(3L);
@@ -60,7 +60,7 @@ public class CargarViajes implements CommandLineRunner {
         v2.setActivo(true);
         viajeRepository.save(v2);
 
-        // Viaje 3: Usuario 3, Cuenta 4 (premium), completado
+
         Viaje v3 = new Viaje();
         v3.setParadaOrigen(1L);
         v3.setParadaDestino(3L);
@@ -76,7 +76,7 @@ public class CargarViajes implements CommandLineRunner {
         v3.setActivo(false);
         viajeRepository.save(v3);
 
-        // Viaje 4: Usuario 3, Cuenta 4 (premium), completado con pausa larga
+
         Viaje v4 = new Viaje();
         v4.setParadaOrigen(2L);
         v4.setParadaDestino(1L);
@@ -88,11 +88,11 @@ public class CargarViajes implements CommandLineRunner {
         v4.setFechaFin(LocalDateTime.now().minusDays(2).plusMinutes(50));
         v4.setTiempoTotalMinutos(50);
         v4.setKilometrosRecorridos(10);
-        v4.setTiempoPausa(20); // Pausa excedida
+        v4.setTiempoPausa(20);
         v4.setActivo(false);
         viajeRepository.save(v4);
 
-        // Viaje 5: Usuario 4, Cuenta 5, completado
+
         Viaje v5 = new Viaje();
         v5.setParadaOrigen(3L);
         v5.setParadaDestino(1L);
@@ -108,7 +108,7 @@ public class CargarViajes implements CommandLineRunner {
         v5.setActivo(false);
         viajeRepository.save(v5);
 
-        // Viaje 6: Usuario 1, Cuenta 1, viaje largo completado
+
         Viaje v6 = new Viaje();
         v6.setParadaOrigen(1L);
         v6.setParadaDestino(2L);
@@ -123,7 +123,7 @@ public class CargarViajes implements CommandLineRunner {
         v6.setActivo(true);
         viajeRepository.save(v6);
 
-        // Viaje 7: Usuario 3, Cuenta 4, completado
+
         Viaje v7 = new Viaje();
         v7.setParadaOrigen(2L);
         v7.setParadaDestino(3L);
@@ -138,7 +138,7 @@ public class CargarViajes implements CommandLineRunner {
         v7.setActivo(true);
         viajeRepository.save(v7);
 
-        // Viaje 8: Usuario 1, Cuenta 1, corto completado
+
         Viaje v8 = new Viaje();
         v8.setParadaOrigen(3L);
         v8.setParadaDestino(2L);
@@ -154,7 +154,7 @@ public class CargarViajes implements CommandLineRunner {
         v8.setActivo(false);
         viajeRepository.save(v8);
 
-        // Viaje 9: Usuario 4, Cuenta 5, viaje reciente completado
+
         Viaje v9 = new Viaje();
         v9.setParadaOrigen(1L);
         v9.setParadaDestino(3L);
@@ -170,7 +170,7 @@ public class CargarViajes implements CommandLineRunner {
         v9.setActivo(false);
         viajeRepository.save(v9);
 
-        // Viaje 10: Usuario 1, Cuenta 2 (premium), reciente completado
+
         Viaje v10 = new Viaje();
         v10.setParadaOrigen(2L);
         v10.setParadaDestino(1L);

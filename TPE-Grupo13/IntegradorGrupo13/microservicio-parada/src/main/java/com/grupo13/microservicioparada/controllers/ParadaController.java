@@ -149,7 +149,7 @@ public class ParadaController {
         }
     }
 
-    @GetMapping("/monopatines-cercanos") // <-- Nuevo endpoint para la consigna G
+    @GetMapping("/monopatines-cercanos")
     public ResponseEntity<?> findMonopatinesCercanos(
             @RequestParam(name = "latitud") Double latitud,
             @RequestParam(name = "longitud") Double longitud) {

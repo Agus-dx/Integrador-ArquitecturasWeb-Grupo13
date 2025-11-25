@@ -12,7 +12,6 @@ package com.grupo13.microserviciousuario.controllers;
 
 import com.grupo13.microserviciousuario.dtos.LoginDTO;
 import com.grupo13.microserviciousuario.entity.Cuenta;
-import com.grupo13.microserviciousuario.entity.EstadoCuenta;
 import com.grupo13.microserviciousuario.entity.Usuario;
 import com.grupo13.microserviciousuario.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping // http://localhost:8080/api/usuarios
+    @GetMapping
     public ResponseEntity<List<Usuario>> findAll(){
         List<Usuario> usuarios = usuarioService.findAll();
         if(usuarios.isEmpty()){
@@ -39,7 +38,7 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
-    @GetMapping("/{id}") // http://localhost:8080/api/usuario/1
+    @GetMapping("/{id}")
     public ResponseEntity<Usuario> findById(@PathVariable Long id) {
         Usuario usuario = usuarioService.findById(id);
         if (usuario != null) {
@@ -92,12 +91,12 @@ public class UsuarioController {
         }
     }
 
-    @PostMapping // http://localhost:8080/api/usuario
+    @PostMapping
     public ResponseEntity<Usuario> save(@RequestBody Usuario usuario) {
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
     }
 
-    @PutMapping("/{id}") // http://localhost:8080/api/usuario/1
+    @PutMapping("/{id}")
     public ResponseEntity<Usuario> update(@RequestBody Usuario usuario, @PathVariable Long id) {
         Usuario usuarioActual = usuarioService.findById(id);
         if (usuarioActual != null) {
@@ -109,7 +108,7 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")  // http://localhost:8080/api/usuario/1
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (usuarioService.findById(id) != null) {
             usuarioService.delete(id);
@@ -118,7 +117,7 @@ public class UsuarioController {
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{idUsuario}/asignar-cuenta/{idCuenta}") // http://localhost:8080/api/usuario/1/asignar-cuenta/2
+    @PutMapping("/{idUsuario}/asignar-cuenta/{idCuenta}")
     public ResponseEntity<?> asignarCuenta(@PathVariable Long idUsuario, @PathVariable Long idCuenta) {
         Optional<Usuario> o = usuarioService.asignarCuenta(idUsuario, idCuenta);
         if (o.isPresent()) {

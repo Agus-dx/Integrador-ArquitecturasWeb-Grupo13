@@ -13,7 +13,6 @@ package com.grupo13.microserviciousuario.service;
 
 import com.grupo13.microserviciousuario.dtos.LoginDTO;
 import com.grupo13.microserviciousuario.entity.Cuenta;
-import com.grupo13.microserviciousuario.entity.EstadoCuenta;
 import com.grupo13.microserviciousuario.entity.Rol;
 import com.grupo13.microserviciousuario.entity.Usuario;
 import com.grupo13.microserviciousuario.repository.CuentaRepository;
@@ -90,7 +89,7 @@ public class UsuarioService {
             if (oCuenta.isPresent()) {
                 Usuario usuario = oUsuario.get();
                 Cuenta cuenta = oCuenta.get();
-                usuario.addCuenta(cuenta); // Asumiendo que tienes un metodo addCuenta en tu entidad Usuario
+                usuario.addCuenta(cuenta);
                 usuarioRepository.save(usuario);
                 return Optional.of(usuario);
             }
